@@ -1,0 +1,1229 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#27548A">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-title" content="Salas Livres">
+<title>Salas Livres · Medicina</title>
+<link rel="manifest" href="manifest.webmanifest">
+<link rel="icon" type="image/png" href="icon-192.png">
+<link rel="apple-touch-icon" href="apple-touch-icon.png">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Bricolage+Grotesque:opsz,wght@12..96,600;12..96,700&family=IBM+Plex+Mono:wght@500;600&family=IBM+Plex+Sans:wght@400;500;600&display=swap">
+<style>
+:root{padding-top:env(safe-area-inset-top,0px);padding-bottom:env(safe-area-inset-bottom,0px)}
+html,body{margin:0} img{max-width:100%} [hidden]{display:none!important}
+</style>
+<style>
+:root{
+  --ground:#EEF1F5; --surface:#FFFFFF; --sunken:#E4E8EE; --ink:#15202E; --muted:#586577; --line:#D5DBE3;
+  --accent:#27548A; --accent-ink:#FFFFFF; --accent-soft:#DCE6F3;
+  --livre:#17704B; --livre-bg:#D9EFE3; --ocup:#A8382A; --ocup-bg:#F6DCD7;
+  --conf:#8D5A0E; --conf-bg:#F8E9C9; --res:#5A43A0; --res-bg:#E5DFF6; --blk:#3F4857; --blk-bg:#D2D7DF; --fer:#B0302A; --int-bg:#E9ECF1; --sem:#7A8596;
+  --shadow:0 1px 2px rgba(21,32,46,.06),0 4px 14px rgba(21,32,46,.06);
+  --display:"Bricolage Grotesque",ui-sans-serif,system-ui,sans-serif;
+  --sans:"IBM Plex Sans",ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif;
+  --mono:"IBM Plex Mono",ui-monospace,"SFMono-Regular",Menlo,monospace;
+  color-scheme:light;
+}
+@media (prefers-color-scheme:dark){
+  :root:not([data-theme="light"]){
+    --ground:#0E141C; --surface:#161F2A; --sunken:#1D2835; --ink:#E5EAF1; --muted:#98A4B5; --line:#2A3646;
+    --accent:#86AEE0; --accent-ink:#0E141C; --accent-soft:#1F3350;
+    --livre:#6FD3A2; --livre-bg:#153325; --ocup:#F0998B; --ocup-bg:#3A1D19; --conf:#E9B764; --conf-bg:#3A2B12;
+    --res:#B7A4F2; --res-bg:#2A2342; --int-bg:#1A2330; --sem:#7F8A9B; --shadow:none; color-scheme:dark; --blk:#C5CDD8; --blk-bg:#2B3341; --fer:#F0998B;
+  }
+}
+:root[data-theme="dark"]{
+  --ground:#0E141C; --surface:#161F2A; --sunken:#1D2835; --ink:#E5EAF1; --muted:#98A4B5; --line:#2A3646;
+  --accent:#86AEE0; --accent-ink:#0E141C; --accent-soft:#1F3350;
+  --livre:#6FD3A2; --livre-bg:#153325; --ocup:#F0998B; --ocup-bg:#3A1D19; --conf:#E9B764; --conf-bg:#3A2B12;
+  --res:#B7A4F2; --res-bg:#2A2342; --int-bg:#1A2330; --sem:#7F8A9B; --shadow:none; color-scheme:dark; --blk:#C5CDD8; --blk-bg:#2B3341; --fer:#F0998B;
+}
+*{box-sizing:border-box}
+body{background:var(--ground);color:var(--ink);font:15px/1.45 var(--sans);-webkit-font-smoothing:antialiased}
+button,input,select,textarea{font:inherit;color:inherit}
+:focus-visible{outline:2px solid var(--accent);outline-offset:2px}
+.app{display:grid;grid-template-columns:minmax(0,1fr);min-height:100%}
+main{min-width:0}
+/* ---------- nav ---------- */
+.side{position:fixed;left:0;right:0;bottom:0;z-index:20;background:var(--surface);border-top:1px solid var(--line);
+  padding:6px 8px calc(6px + env(safe-area-inset-bottom,0px))}
+.brand{display:none}
+.tabs{display:grid;grid-template-columns:repeat(5,1fr);gap:4px;list-style:none;margin:0;padding:0}
+.tab{display:flex;flex-direction:column;align-items:center;gap:2px;width:100%;border:0;background:none;padding:6px 4px;border-radius:10px;
+  font-size:12px;font-weight:500;color:var(--muted);cursor:pointer}
+.tab svg{width:22px;height:22px;stroke:currentColor;fill:none;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}
+.tab[aria-current="page"]{color:var(--accent);background:var(--accent-soft)}
+main{padding-inline:16px;padding-block:14px calc(92px + env(safe-area-inset-bottom,0px));max-width:1120px;width:100%;margin-inline:auto}
+@media (min-width:960px){
+  .app{grid-template-columns:232px minmax(0,1fr)}
+  .side{position:sticky;top:0;bottom:auto;height:100vh;border-top:0;border-right:1px solid var(--line);padding:22px 14px}
+  .brand{display:block;padding:0 10px 22px}
+  .tabs{grid-template-columns:1fr;gap:2px}
+  .tab{flex-direction:row;gap:12px;font-size:15px;padding:10px 12px;justify-content:flex-start}
+  .mhead{display:none!important}
+  main{padding-inline:36px;padding-block:28px 40px}
+}
+.brand b,.mhead b{font:700 20px/1.1 var(--display);letter-spacing:-.01em;display:block}
+.brand span,.mhead span{font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase}
+.mhead{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px}
+.side-foot{display:none}
+@media (min-width:960px){.side-foot{display:block;position:absolute;bottom:22px;left:24px;right:14px;font-size:12px;color:var(--muted)}}
+/* ---------- common ---------- */
+h1{font:700 clamp(24px,4.4vw,34px)/1.1 var(--display);letter-spacing:-.015em;margin:0 0 4px;text-wrap:balance}
+h2{font:600 13px/1.2 var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);margin:26px 0 10px}
+.sub{color:var(--muted);margin:0 0 16px}
+.controls{display:flex;flex-wrap:wrap;gap:10px;align-items:end;background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px}
+.field{display:flex;flex-direction:column;gap:4px;min-width:0;flex:1 1 140px}
+.field label{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.03em}
+.inp{height:42px;border:1px solid var(--line);border-radius:10px;background:var(--surface);padding:0 10px;width:100%}
+textarea.inp{height:auto;padding:10px;min-height:64px;resize:vertical}
+.btn{height:42px;border-radius:10px;border:1px solid var(--line);background:var(--surface);padding:0 14px;font-weight:600;cursor:pointer;white-space:nowrap}
+.btn.primary{background:var(--accent);border-color:var(--accent);color:var(--accent-ink)}
+.btn.ghost{border-color:transparent;background:transparent;color:var(--accent)}
+.btn.danger{color:var(--ocup)}
+.btn:disabled{opacity:.45;cursor:not-allowed}
+.btn.sm{height:34px;padding:0 10px;font-size:13px}
+.pill{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:600;padding:3px 9px;border-radius:999px;white-space:nowrap}
+.pill::before{content:"";width:7px;height:7px;border-radius:50%;background:currentColor}
+.s-l{color:var(--livre);background:var(--livre-bg)} .s-o{color:var(--ocup);background:var(--ocup-bg)}
+.s-c{color:var(--conf);background:var(--conf-bg)} .s-r{color:var(--res);background:var(--res-bg)}
+.s-u{color:var(--sem);background:var(--sunken)} .s-b{color:var(--blk);background:var(--blk-bg)} .s-i{color:var(--muted);background:var(--int-bg)}
+.mono{font-family:var(--mono);font-variant-numeric:tabular-nums}
+.note{font-size:13px;color:var(--muted);background:var(--sunken);border-radius:10px;padding:10px 12px;margin-top:14px}
+/* ---------- agora ---------- */
+.when{display:flex;flex-wrap:wrap;align-items:baseline;gap:6px 12px}
+.when .mono{font-size:15px;color:var(--accent);font-weight:600}
+.tally{display:flex;height:10px;border-radius:99px;overflow:hidden;background:var(--sunken);margin:16px 0 8px}
+.tally i{display:block;height:100%}
+.legend{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:13px;color:var(--muted)}
+.legend b{color:var(--ink);font-family:var(--mono)}
+.filt{display:flex;gap:6px;margin-top:16px}
+.chip{border:1px solid var(--line);background:var(--surface);border-radius:999px;padding:6px 12px;font-size:13px;font-weight:600;cursor:pointer}
+.chip[aria-pressed="true"]{background:var(--ink);color:var(--ground);border-color:var(--ink)}
+.plates{display:grid;grid-template-columns:repeat(auto-fill,minmax(158px,1fr));gap:10px}
+@media (max-width:420px){.plates{grid-template-columns:repeat(2,minmax(0,1fr))}}
+.plate{position:relative;text-align:left;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 12px 11px;
+  cursor:pointer;display:flex;flex-direction:column;gap:6px;box-shadow:var(--shadow);min-width:0}
+.plate:hover{border-color:var(--accent)}
+.plate .num{font:600 26px/1 var(--mono);letter-spacing:-.02em}
+.plate .num small{font:500 11px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted);display:block;margin-bottom:4px}
+.plate .what{font-size:13px;color:var(--muted);overflow:hidden;display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;min-height:2.9em}
+.plate .edge{position:absolute;top:12px;right:12px;width:10px;height:10px;border-radius:50%}
+.plate.apoio .num{font-size:18px}
+/* ---------- search results ---------- */
+.results{display:flex;flex-direction:column;gap:8px}
+.row{display:flex;align-items:center;gap:12px;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px}
+.row .num{font:600 20px var(--mono);min-width:64px}
+.row .txt{flex:1;min-width:0;font-size:13px;color:var(--muted)}
+.row .txt strong{color:var(--ink);font-weight:600;display:block;font-size:14px}
+details.more{margin-top:8px}
+details.more summary{cursor:pointer;color:var(--muted);font-size:14px;padding:6px 0}
+.empty{padding:22px;text-align:center;color:var(--muted);background:var(--surface);border:1px dashed var(--line);border-radius:12px}
+/* ---------- grids ---------- */
+.roomchips{display:flex;gap:6px;overflow-x:auto;padding-bottom:6px;scrollbar-width:thin}
+.roomchips .chip{font-family:var(--mono);flex:0 0 auto}
+.seg{display:inline-flex;background:var(--sunken);border-radius:10px;padding:3px;gap:2px}
+.seg button{border:0;background:none;border-radius:8px;padding:7px 12px;font-weight:600;font-size:13px;cursor:pointer;color:var(--muted)}
+.seg button[aria-pressed="true"]{background:var(--surface);color:var(--ink);box-shadow:var(--shadow)}
+.bar{display:flex;flex-wrap:wrap;justify-content:space-between;align-items:center;gap:10px;margin:14px 0 10px}
+.weeknav{display:flex;align-items:center;gap:6px}
+.scroll{overflow-x:auto;border:1px solid var(--line);border-radius:12px;background:var(--surface)}
+table.grid{border-collapse:separate;border-spacing:3px;width:100%;min-width:600px;table-layout:fixed}
+table.grid th{font-size:12px;font-weight:600;color:var(--muted);padding:6px 4px;text-align:left}
+table.grid th.t{width:62px;font-family:var(--mono);font-weight:500;font-size:11.5px;text-align:right;padding-right:8px;vertical-align:top}
+table.grid td{padding:0;height:46px}
+table.grid tr.int td{height:12px} table.grid tr.int th{font-size:10px;padding:0 8px 0 0;line-height:12px}
+.cell{display:block;width:100%;height:100%;border:0;border-radius:6px;padding:4px 6px;text-align:left;font-size:11.5px;line-height:1.25;cursor:pointer;overflow:hidden}
+.cell span{display:-webkit-box;-webkit-line-clamp:2;-webkit-box-orient:vertical;overflow:hidden}
+.cell.s-l{background:var(--livre-bg);color:var(--livre)} .cell.s-u{background:repeating-linear-gradient(135deg,var(--sunken) 0 6px,transparent 6px 10px);color:var(--sem)}
+.cell.s-i{cursor:default;border-radius:3px}
+.cell.s-b{background:repeating-linear-gradient(135deg,var(--blk-bg) 0 7px,var(--sunken) 7px 12px);color:var(--blk);font-weight:600}
+.banner{display:flex;gap:10px;align-items:flex-start;border-radius:12px;padding:11px 14px;margin:0 0 14px;font-size:14px;background:var(--blk-bg);color:var(--ink)}
+.banner b{font-weight:600}
+.banner.fer{background:var(--ocup-bg)} .banner.fer::before{background:var(--fer)}
+.banner.info{background:var(--accent-soft)} .banner.info::before{background:var(--accent)}
+.banner::before{content:"";flex:0 0 8px;height:8px;margin-top:6px;border-radius:50%;background:var(--blk)}
+th small{display:block;font-weight:600;font-size:10.5px;color:var(--fer);white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.resv .warn{grid-column:1/-1;font-size:12.5px;color:var(--ocup);font-weight:600}
+.cell.flag{box-shadow:inset 0 0 0 1.5px var(--conf)}
+th.today{color:var(--accent)!important}
+table.board{min-width:760px}
+table.board th.r{width:84px;font-family:var(--mono);font-size:13px;color:var(--ink);text-align:left}
+table.board td{height:34px}
+table.board .cell{font-size:10.5px;padding:3px 5px}
+table.board .cell span{-webkit-line-clamp:2}
+/* ---------- reservas ---------- */
+.day{margin-top:18px}
+.day h3{font:600 15px var(--sans);margin:0 0 8px}
+.resv{display:grid;grid-template-columns:auto 1fr auto;gap:4px 12px;align-items:center;background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:10px 12px;margin-bottom:8px}
+.resv .num{font:600 20px var(--mono);color:var(--res)}
+.resv .txt{font-size:13px;color:var(--muted);min-width:0}
+.resv .txt strong{display:block;color:var(--ink);font-size:14px}
+.mode{display:inline-flex;align-items:center;gap:6px;font-size:12px;color:var(--muted)}
+.mode i{width:8px;height:8px;border-radius:50%;background:var(--sem)}
+.mode.live i{background:var(--livre)}
+/* ---------- dialogs ---------- */
+dialog{border:0;padding:0;border-radius:18px 18px 0 0;background:var(--surface);color:var(--ink);width:100%;max-width:100%;margin:auto 0 0;
+  max-height:92vh;box-shadow:0 -10px 40px rgba(0,0,0,.25)}
+dialog::backdrop{background:rgba(10,16,24,.45)}
+@media (min-width:640px){dialog{border-radius:18px;max-width:520px;margin:auto}}
+.dlg{padding:18px 16px calc(18px + env(safe-area-inset-bottom,0px));display:flex;flex-direction:column;gap:12px}
+.dlg h2{margin:0;color:var(--ink);font:700 22px var(--display);letter-spacing:-.01em;text-transform:none}
+.dlg .grid2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dlg .actions{display:flex;gap:8px;justify-content:flex-end;margin-top:4px}
+.check{font-size:14px;border-radius:10px;padding:10px 12px}
+.kv{display:grid;grid-template-columns:auto 1fr;gap:6px 14px;font-size:14px}
+.kv dt{color:var(--muted)} .kv dd{margin:0}
+.toast{position:fixed;left:50%;transform:translateX(-50%);bottom:calc(96px + env(safe-area-inset-bottom,0px));background:var(--ink);color:var(--ground);
+  padding:10px 16px;border-radius:10px;font-size:14px;font-weight:500;z-index:50;max-width:calc(100% - 32px)}
+@media (min-width:960px){.toast{bottom:28px}}
+
+[hidden]{display:none!important}
+dialog{overflow:auto}
+.dlg .field{flex:none}
+.seg.full{display:flex;width:100%} .seg.full button{flex:1}
+.flabel{font-size:12px;font-weight:600;color:var(--muted);letter-spacing:.03em}
+fieldset.opts{border:1px solid var(--line);border-radius:10px;padding:8px 12px 10px;margin:0;display:flex;flex-direction:column;gap:6px}
+fieldset.opts legend{font-size:12px;font-weight:600;color:var(--muted);padding:0 4px}
+fieldset.opts label{display:flex;align-items:center;gap:8px;font-size:14px;cursor:pointer}
+fieldset.opts input{width:18px;height:18px;accent-color:var(--accent)}
+.hbtns{display:flex;gap:8px;flex-wrap:wrap}
+.tab{position:relative}
+.badge{position:absolute;top:1px;left:calc(50% + 5px);min-width:18px;height:18px;padding:0 5px;border-radius:9px;background:var(--fer);color:var(--surface);font:700 11px/18px var(--sans);text-align:center;font-variant-numeric:tabular-nums}
+@media (min-width:960px){.badge{position:static;margin-left:auto}}
+.btn.warn{background:var(--ocup);border-color:var(--ocup);color:var(--surface)}
+.userbtn{border:0;background:var(--accent-soft);color:var(--accent);border-radius:999px;height:32px;padding:0 12px;font-weight:600;font-size:13px;cursor:pointer;max-width:170px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.composer{background:var(--surface);border:1px solid var(--line);border-radius:14px;padding:12px;display:flex;flex-direction:column;gap:10px}
+.composer .field{flex:none}
+#gr-range{white-space:nowrap}
+.composer .row3{display:flex;flex-wrap:wrap;gap:10px;align-items:end}
+.composer .row3 .field{flex:1 1 130px}
+.msgs{display:flex;flex-direction:column;gap:10px;margin-top:16px}
+.msg{background:var(--surface);border:1px solid var(--line);border-radius:12px;padding:12px 14px;display:flex;flex-direction:column;gap:8px}
+.msg.novo{border-color:var(--accent)}
+.msg .mh{display:flex;gap:6px 10px;align-items:center;flex-wrap:wrap;font-size:13px;color:var(--muted)}
+.msg .mh b{color:var(--ink);font-weight:600}
+.msg .mh .sp{flex:1}
+.msg p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere;font-size:15px}
+.msg .go{align-self:flex-start;border:1px solid var(--line);background:var(--sunken);border-radius:999px;padding:4px 10px;font-size:12.5px;font-weight:600;cursor:pointer;color:var(--ink)}
+.pill.novo{color:var(--accent);background:var(--accent-soft)}
+.resv.lib .num{color:var(--muted)}
+.resv .lib-info{grid-column:1/-1;font-size:12.5px;color:var(--muted)}
+.gated .app{display:none}
+.auth{min-height:100vh;display:grid;place-items:center;padding-inline:16px;padding-block:24px}
+.auth-card{width:100%;max-width:410px;background:var(--surface);border:1px solid var(--line);border-radius:18px;padding:26px 20px;display:flex;flex-direction:column;gap:14px;box-shadow:var(--shadow)}
+.auth-card h1{font-size:30px}
+.auth-card .field{flex:none}
+.auth-card p{margin:0;color:var(--muted)}
+.linkbtn{border:0;background:none;color:var(--accent);font-weight:600;cursor:pointer;padding:4px 0;align-self:flex-start}
+.member{display:flex;align-items:center;gap:10px;padding:9px 0;border-bottom:1px solid var(--line);font-size:14px}
+.member .txt{flex:1;min-width:0;overflow-wrap:anywhere} .member .txt small{display:block;color:var(--muted)}
+@media (prefers-reduced-motion:no-preference){.plate,.chip,.tab{transition:border-color .15s,background-color .15s,color .15s}}
+</style>
+<script src="config.js"></script>
+</head>
+<body>
+<div class="app">
+  <aside class="side">
+    <div class="brand"><b>Salas Livres</b><span>Medicina · 2026.2</span></div>
+    <ul class="tabs" role="list">
+      <li><button class="tab" data-view="agora" aria-current="page"><svg viewBox="0 0 24 24"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 2"/></svg>Agora</button></li>
+      <li><button class="tab" data-view="buscar"><svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="7"/><path d="m20 20-4-4"/></svg>Buscar</button></li>
+      <li><button class="tab" data-view="salas"><svg viewBox="0 0 24 24"><rect x="3" y="4" width="18" height="17" rx="2"/><path d="M3 10h18M9 4v17"/></svg>Grade</button></li>
+      <li><button class="tab" data-view="reservas"><svg viewBox="0 0 24 24"><path d="M6 3h12v18l-6-4-6 4z"/></svg>Reservas</button></li>
+      <li><button class="tab" data-view="mural"><svg viewBox="0 0 24 24"><path d="M4 5h16v11H9l-5 4z"/></svg>Mural<span class="badge" id="badge-mural" hidden></span></button></li>
+    </ul>
+    <div class="side-foot"><button class="userbtn" id="user-d">Seu nome</button><div style="margin-top:10px">Grade: Quadro Unificado 2026.2</div></div>
+  </aside>
+
+  <main>
+    <div class="mhead"><div><b>Salas Livres</b><span>Medicina · 2026.2</span></div><button class="userbtn" id="user-m">Seu nome</button></div>
+
+    <!-- AGORA -->
+    <section id="v-agora">
+      <div class="when"><h1 id="ag-title">Agora</h1><span class="mono" id="ag-time"></span></div>
+      <p class="sub" id="ag-sub"></p>
+      <div id="ag-banner"></div>
+      <div class="controls">
+        <div class="field"><label for="ag-date">Data</label><input class="inp" type="date" id="ag-date"></div>
+        <div class="field"><label for="ag-slot">Horário</label><select class="inp" id="ag-slot"></select></div>
+        <button class="btn ghost" id="ag-now">Voltar para agora</button>
+      </div>
+      <div class="tally" id="ag-tally"></div>
+      <div class="legend" id="ag-legend"></div>
+      <div class="filt"><button class="chip" id="f-todas" aria-pressed="true">Todas</button><button class="chip" id="f-livres" aria-pressed="false">Só livres</button></div>
+      <div id="ag-groups"></div>
+    </section>
+
+    <!-- BUSCAR -->
+    <section id="v-buscar" hidden>
+      <h1>Buscar sala livre</h1>
+      <p class="sub">Escolha a data e o período. Aparecem as salas livres do início ao fim.</p>
+      <div class="controls">
+        <div class="field"><label for="bs-date">Data</label><input class="inp" type="date" id="bs-date"></div>
+        <div class="field"><label for="bs-ini">De</label><select class="inp" id="bs-ini"></select></div>
+        <div class="field"><label for="bs-fim">Até</label><select class="inp" id="bs-fim"></select></div>
+      </div>
+      <div class="filt" id="bs-quick"></div>
+      <div id="bs-banner" style="margin-top:14px"></div>
+      <div id="bs-out"></div>
+    </section>
+
+    <!-- GRADE -->
+    <section id="v-salas" hidden>
+      <h1 id="gr-title">Grade da sala</h1>
+      <p class="sub" id="gr-sub"></p>
+      <div class="bar">
+        <div class="seg" role="group" aria-label="Visão"><button id="gv-sala" aria-pressed="true">Por sala</button><button id="gv-dia" aria-pressed="false">Quadro do dia</button></div>
+        <div class="weeknav"><button class="btn sm" id="gr-prev" aria-label="Anterior">‹</button><span class="mono" id="gr-range"></span><button class="btn sm" id="gr-next" aria-label="Próximo">›</button><button class="btn sm ghost" id="gr-today">Hoje</button><button class="btn sm" id="gr-export">Exportar</button></div>
+      </div>
+      <div class="roomchips" id="gr-rooms"></div>
+      <div class="scroll" id="gr-table" style="margin-top:8px"></div>
+      <div class="legend" style="margin-top:10px">
+        <span class="pill s-l">Livre</span><span class="pill s-o">Ocupada (toque para liberar)</span><span class="pill s-r">Reservada</span><span class="pill s-c">A confirmar</span><span class="pill s-u">Sem grade</span><span class="pill s-b">Dia não letivo</span>
+      </div>
+    </section>
+
+    <!-- RESERVAS -->
+    <section id="v-reservas" hidden>
+      <div class="bar" style="margin-top:0"><h1 style="margin:0">Reservas</h1><div class="hbtns"><button class="btn" id="rs-export">Exportar</button><button class="btn primary" id="rs-new">Nova reserva</button></div></div>
+      <p class="sub"><span class="mode" id="mode"><i></i><em id="mode-t">Conectando…</em></span></p>
+      <div class="filt"><button class="chip" id="rf-todas" aria-pressed="true">Próximas</button><button class="chip" id="rf-minhas" aria-pressed="false">Minhas</button><button class="chip" id="rf-grade" aria-pressed="false">Salas liberadas</button><button class="chip" id="rf-lib" aria-pressed="false">Histórico</button></div>
+      <div id="rs-list"></div>
+    </section>
+
+    <!-- MURAL -->
+    <section id="v-mural" hidden>
+      <h1>Mural</h1>
+      <p class="sub">Recados para o grupo. Marque uma sala e uma data para levar direto à grade.</p>
+      <form class="composer" id="mu-form">
+        <div class="field"><label for="mu-texto">Novo recado</label><textarea class="inp" id="mu-texto" maxlength="1000" rows="3" placeholder="Ex.: A sala 204 está sem projetor até sexta."></textarea></div>
+        <div class="row3">
+          <div class="field"><label for="mu-sala">Sala (opcional)</label><select class="inp" id="mu-sala"></select></div>
+          <div class="field"><label for="mu-data">Data (opcional)</label><input class="inp" type="date" id="mu-data"></div>
+          <button class="btn primary" type="submit" id="mu-ok">Publicar</button>
+        </div>
+      </form>
+      <div class="msgs" id="mu-list"></div>
+    </section>
+  </main>
+</div>
+
+<dialog id="dlg-res" aria-labelledby="dr-h">
+  <form class="dlg" id="res-form" method="dialog">
+    <h2 id="dr-h">Reservar sala</h2>
+    <div class="grid2">
+      <div class="field"><label for="r-sala">Sala</label><select class="inp" id="r-sala"></select></div>
+      <div class="field"><label for="r-data">Data</label><input class="inp" type="date" id="r-data" required></div>
+      <div class="field"><label for="r-ini">Início</label><select class="inp" id="r-ini"></select></div>
+      <div class="field"><label for="r-fim">Fim</label><select class="inp" id="r-fim"></select></div>
+    </div>
+    <div class="field"><label for="r-atividade">Atividade</label><input class="inp" id="r-atividade" required maxlength="120" placeholder="Ex.: Reposição de aula · 5ºB"></div>
+    <div class="field"><label for="r-resp">Responsável pela atividade</label><input class="inp" id="r-resp" maxlength="80" placeholder="Ex.: Prof. Saulo"></div>
+    <div class="field"><label for="r-nome">Seu nome <span style="font-weight:400">(quem está reservando)</span></label><input class="inp" id="r-nome" required maxlength="60" placeholder="Ex.: Rosamaria"></div>
+    <div class="check" id="r-check"></div>
+    <div class="actions"><button type="button" class="btn" id="r-cancel">Fechar</button><button type="submit" class="btn primary" id="r-ok">Reservar</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-cell" aria-labelledby="dc-h">
+  <div class="dlg">
+    <h2 id="dc-h"></h2>
+    <dl class="kv" id="dc-kv"></dl>
+    <div class="actions"><button type="button" class="btn" id="dc-close">Fechar</button><button type="button" class="btn warn" id="dc-lib" hidden>Liberar sala</button><button type="button" class="btn primary" id="dc-res">Reservar este horário</button></div>
+  </div>
+</dialog>
+
+<dialog id="dlg-exp" aria-labelledby="de-h">
+  <form class="dlg" id="exp-form" method="dialog">
+    <h2 id="de-h">Exportar</h2>
+    <div class="field"><span class="flabel">Exportar por</span>
+      <div class="seg full" role="group" aria-label="Recorte" id="ex-scope"><button type="button" data-scope="dia" aria-pressed="true">Dia</button><button type="button" data-scope="mes" aria-pressed="false">Mês</button><button type="button" data-scope="periodo" aria-pressed="false">Período</button></div></div>
+    <div class="field" id="ex-dia"><label for="ex-date">Data</label><input type="date" class="inp" id="ex-date"></div>
+    <div class="field" id="ex-mes" hidden><label for="ex-month">Mês</label><select class="inp" id="ex-month"></select></div>
+    <div class="grid2" id="ex-per" hidden>
+      <div class="field"><label for="ex-de">De</label><input type="date" class="inp" id="ex-de"></div>
+      <div class="field"><label for="ex-ate">Até</label><input type="date" class="inp" id="ex-ate"></div>
+    </div>
+    <fieldset class="opts"><legend>Incluir</legend>
+      <label><input type="checkbox" id="ex-quadro" checked> Quadro de ocupação das salas (um por dia)</label>
+      <label><input type="checkbox" id="ex-res" checked> Lista de reservas</label>
+    </fieldset>
+    <div class="field"><span class="flabel">Formato</span>
+      <div class="seg full" role="group" aria-label="Formato" id="ex-fmt"><button type="button" data-fmt="pdf" aria-pressed="true">PDF</button><button type="button" data-fmt="xlsx" aria-pressed="false">Excel (.xlsx)</button></div></div>
+    <div class="check s-u" id="ex-sum"></div>
+    <div class="actions"><button type="button" class="btn" id="ex-cancel">Fechar</button><button type="submit" class="btn primary" id="ex-ok">Exportar</button></div>
+  </form>
+</dialog>
+<dialog id="dlg-lib" aria-labelledby="dl-h">
+  <form class="dlg" id="lib-form" method="dialog">
+    <h2 id="dl-h">Cancelar reserva</h2>
+    <dl class="kv" id="dl-kv"></dl>
+    <div class="grid2" id="l-periodo" hidden>
+      <div class="field"><label for="l-ini">Liberar de</label><select class="inp" id="l-ini"></select></div>
+      <div class="field"><label for="l-fim">Até</label><select class="inp" id="l-fim"></select></div>
+    </div>
+    <div class="field"><label for="l-nome" id="l-nome-lb">Seu nome (quem está liberando)</label><input class="inp" id="l-nome" maxlength="60" placeholder="Ex.: Rosamaria"></div>
+    <div class="field"><label for="l-motivo" id="l-motivo-lb">Motivo (opcional)</label><input class="inp" id="l-motivo" maxlength="120" placeholder="Ex.: Atividade remarcada"></div>
+    <div class="check s-c" id="l-check">A reserva sai da grade e fica no histórico com seu nome, data e hora.</div>
+    <div class="actions"><button type="button" class="btn" id="l-cancel">Voltar</button><button type="submit" class="btn warn" id="l-ok">Liberar sala</button></div>
+  </form>
+</dialog>
+
+<dialog id="dlg-conta" aria-labelledby="dk-h">
+  <div class="dlg">
+    <h2 id="dk-h">Sua conta</h2>
+    <div class="field"><label for="k-nome">Seu nome</label><input class="inp" id="k-nome" maxlength="60" placeholder="Como seu nome aparece para o grupo"></div>
+    <p class="sub" id="k-info" style="margin:0"></p>
+    <div id="k-admin" hidden>
+      <h2 style="margin:8px 0 4px;font:600 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Membros do grupo</h2>
+      <div class="grid2" style="align-items:end">
+        <div class="field"><label for="k-email">Autorizar e-mail</label><input class="inp" type="email" id="k-email" placeholder="nome@exemplo.com"></div>
+        <button type="button" class="btn" id="k-add">Adicionar</button>
+      </div>
+      <label style="display:flex;gap:8px;align-items:center;font-size:14px;margin-top:8px"><input type="checkbox" id="k-isadmin"> Também é administrador</label>
+      <div id="k-members" style="margin-top:8px"></div>
+    </div>
+    <div class="actions"><button type="button" class="btn danger" id="k-sair" hidden>Sair</button><span style="flex:1"></span><button type="button" class="btn" id="k-close">Fechar</button><button type="button" class="btn primary" id="k-save">Salvar nome</button></div>
+  </div>
+</dialog>
+
+<div class="auth" id="auth" hidden>
+  <div class="auth-card">
+    <div><span style="font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase">Medicina · 2026.2</span><h1>Salas Livres</h1></div>
+    <div id="au-loading"><p>Carregando…</p></div>
+    <form id="au-email" hidden style="display:flex;flex-direction:column;gap:12px">
+      <p>Entre com o e-mail autorizado pela coordenação. Você recebe um link de acesso, sem senha.</p>
+      <div class="field"><label for="au-e">E-mail</label><input class="inp" type="email" id="au-e" autocomplete="email" required placeholder="nome@exemplo.com"></div>
+      <button class="btn primary" type="submit" id="au-send">Enviar link de acesso</button>
+    </form>
+    <form id="au-code" hidden style="display:flex;flex-direction:column;gap:12px">
+      <p id="au-sent"></p>
+      <div class="field"><label for="au-c">Código (se houver)</label><input class="inp mono" id="au-c" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="123456"></div>
+      <button class="btn primary" type="submit" id="au-verify">Entrar com o código</button>
+      <button class="linkbtn" type="button" id="au-back">Usar outro e-mail</button>
+    </form>
+    <form id="au-nome" hidden style="display:flex;flex-direction:column;gap:12px">
+      <p>Primeiro acesso: como seu nome deve aparecer para o grupo nas reservas e no mural?</p>
+      <div class="field"><label for="au-n">Seu nome</label><input class="inp" id="au-n" maxlength="60" required placeholder="Ex.: Profa. Rosamaria"></div>
+      <button class="btn primary" type="submit">Continuar</button>
+    </form>
+    <div id="au-negado" hidden style="display:flex;flex-direction:column;gap:12px">
+      <p id="au-negado-t"></p>
+      <button class="btn" type="button" id="au-sair">Sair e usar outro e-mail</button>
+    </div>
+    <div class="check s-o" id="au-err" hidden></div>
+  </div>
+</div>
+<div class="toast" id="toast" hidden></div>
+
+<script>
+document.documentElement.lang='pt-BR';
+const DATA = {"semestre":"2026.2","slots":["07h30-08h20","08h20-09h10","09h10-09h30","09h30-10h20","10h20-11h10","11h10-12h00","13h20-14h10","14h10-15h00","15h00-15h20","15h20-16h10","16h10-17h00","17h00-17h50"],"intervalos":[2,8],"dias":["Seg","Ter","Qua","Qui","Sex"],"salas":[{"id":"101","andar":"1º andar","turma":"2ºA"},{"id":"102","andar":"1º andar","turma":"6ºB"},{"id":"103","andar":"1º andar","turma":"6ºA"},{"id":"104","andar":"1º andar","turma":"5ºB"},{"id":"105","andar":"1º andar","turma":"8ºA"},{"id":"106","andar":"1º andar","turma":"3ºA"},{"id":"201","andar":"2º andar","turma":"1ºA"},{"id":"202","andar":"2º andar","turma":"7ºB"},{"id":"203","andar":"2º andar","turma":"5ºA"},{"id":"204","andar":"2º andar","turma":"7ºA"},{"id":"205","andar":"2º andar","turma":"8ºB"},{"id":"206","andar":"2º andar","turma":"2ºB"},{"id":"207","andar":"2º andar","turma":"4ºA"},{"id":"208","andar":"2º andar","turma":"4ºB"},{"id":"Tutoria 1","andar":"Apoio","turma":""},{"id":"Tutoria 2","andar":"Apoio","turma":""},{"id":"Tutoria 3","andar":"Apoio","turma":""},{"id":"Tutoria 4","andar":"Apoio","turma":""},{"id":"Sala 12","andar":"Apoio","turma":""},{"id":"Sala 13","andar":"Apoio","turma":""},{"id":"Sala 14","andar":"Apoio","turma":""}],"grade":{"201":[[["o","1ºA · Organização Morfológica e Funcional I",""],["o","1ºA · Organização Morfológica e Funcional I",""],["i","Intervalo",""],["o","1ºA · Organização Morfológica e Funcional I",""],["o","1ºA · Organização Morfológica e Funcional I",""],["o","1ºA · Organização Morfológica e Funcional I",""],["o","1ºA · Organização Morfológica e Funcional I",""],["o","1ºA · Organização Morfológica e Funcional I",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","1ºA · Concepção e Formação do Ser Humano I",""],["o","1ºA · Concepção e Formação do Ser Humano I",""],["i","Intervalo",""],["o","1ºA · Concepção e Formação do Ser Humano I",""],["o","1ºA · Libras e Comunicação Inclusiva",""],["o","1ºA · Libras e Comunicação Inclusiva",""],["o","1ºA · Bases Científicas da Medicina I",""],["o","1ºA · Bases Científicas da Medicina I",""],["i","Intervalo",""],["o","1ºA · Bases Científicas da Medicina I",""],["l","",""],["l","",""]],[["o","1ºA · Bases Celulares e Moleculares I",""],["o","1ºA · Bases Celulares e Moleculares I",""],["i","Intervalo",""],["o","1ºA · Bases Celulares e Moleculares I",""],["o","1ºA · Bases Celulares e Moleculares I",""],["l","",""],["o","1ºA · Bases Celulares e Moleculares I",""],["o","1ºA · Bases Celulares e Moleculares I",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","1ºA · Habilidades em Saúde",""],["o","1ºA · Habilidades em Saúde",""],["i","Intervalo",""],["o","1ºA · Habilidades em Saúde",""],["o","1ºA · Habilidades em Saúde",""],["l","",""],["o","1ºA · Integração Serviço, Ensino e Comunidade I",""],["o","1ºA · Integração Serviço, Ensino e Comunidade I",""],["i","Intervalo",""],["o","1ºA · Integração Serviço, Ensino e Comunidade I",""],["l","",""],["l","",""]],[["o","1ºA · Inglês Instrumental em Medicina I",""],["o","1ºA · Inglês Instrumental em Medicina I",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]]],"101":[[["o","2ºA · Inovação Tecnológica em Saúde",""],["o","2ºA · Inovação Tecnológica em Saúde",""],["i","Intervalo",""],["o","2ºA · Bases Científicas da Medicina II",""],["o","2ºA · Bases Científicas da Medicina II",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["o","2ºA · Organização Morfológica e Funcional II",""],["o","2ºA · Organização Morfológica e Funcional II",""],["o","2ºA · Organização Morfológica e Funcional II",""]],[["l","","Em datas específicas: ECG (Prof. Saulo) — ver eventos"],["l","","Em datas específicas: ECG (Prof. Saulo) — ver eventos"],["i","Intervalo",""],["l","","Em datas específicas: ECG (Prof. Saulo) — ver eventos"],["l","","Em datas específicas: ECG (Prof. Saulo) — ver eventos"],["l","","Em datas específicas: ECG (Prof. Saulo) — ver eventos"],["o","2ºA · Organização Morfológica e Funcional II",""],["o","2ºA · Organização Morfológica e Funcional II",""],["i","Intervalo",""],["o","2ºA · Organização Morfológica e Funcional II",""],["o","2ºA · Organização Morfológica e Funcional II",""],["l","",""]],[["o","2ºA · Organização Morfológica e Funcional II",""],["o","2ºA · Organização Morfológica e Funcional II",""],["i","Intervalo",""],["o","2ºA · Organização Morfológica e Funcional II",""],["o","2ºA · Organização Morfológica e Funcional II",""],["l","",""],["o","2ºA · Integração Serviço, Ensino e Comunidade II",""],["o","2ºA · Integração Serviço, Ensino e Comunidade II",""],["i","Intervalo",""],["o","2ºA · Integração Serviço, Ensino e Comunidade II",""],["l","",""],["l","",""]],[["o","2ºA · Bases Celulares e Moleculares II",""],["o","2ºA · Bases Celulares e Moleculares II",""],["i","Intervalo",""],["o","2ºA · Bases Celulares e Moleculares II",""],["o","2ºA · Bases Celulares e Moleculares II",""],["l","",""],["o","2ºA · Bases Celulares e Moleculares II",""],["o","2ºA · Bases Celulares e Moleculares II",""],["i","Intervalo",""],["o","2ºA · Bases Celulares e Moleculares II",""],["o","2ºA · Bases Celulares e Moleculares II",""],["l","",""]],[["o","2ºA · Concepção e Formação do Ser Humano II",""],["o","2ºA · Concepção e Formação do Ser Humano II",""],["i","Intervalo",""],["o","2ºA · Concepção e Formação do Ser Humano II",""],["l","",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]]],"206":[[["o","2ºB · Organização Morfológica e Funcional II",""],["o","2ºB · Organização Morfológica e Funcional II",""],["i","Intervalo",""],["o","2ºB · Organização Morfológica e Funcional II",""],["o","2ºB · Organização Morfológica e Funcional II",""],["o","2ºB · Organização Morfológica e Funcional II",""],["o","2ºB · Organização Morfológica e Funcional II",""],["o","2ºB · Organização Morfológica e Funcional II",""],["i","Intervalo",""],["o","2ºB · Organização Morfológica e Funcional II",""],["o","2ºB · Organização Morfológica e Funcional II",""],["l","",""]],[["o","2ºB · Organização Morfológica e Funcional II",""],["o","2ºB · Organização Morfológica e Funcional II",""],["i","Intervalo",""],["o","2ºB · Bases Científicas da Medicina II",""],["o","2ºB · Bases Científicas da Medicina II",""],["l","",""],["o","2ºB · Concepção e Formação do Ser Humano II",""],["o","2ºB · Concepção e Formação do Ser Humano II",""],["i","Intervalo",""],["o","2ºB · Concepção e Formação do Ser Humano II",""],["l","",""],["l","",""]],[["o","2ºB · Integração Serviço, Ensino e Comunidade II",""],["o","2ºB · Integração Serviço, Ensino e Comunidade II",""],["i","Intervalo",""],["o","2ºB · Integração Serviço, Ensino e Comunidade II",""],["l","",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","2ºB · Bases Celulares e Moleculares II",""],["o","2ºB · Bases Celulares e Moleculares II",""],["i","Intervalo",""],["o","2ºB · Bases Celulares e Moleculares II",""],["o","2ºB · Bases Celulares e Moleculares II",""],["l","",""],["o","2ºB · Bases Celulares e Moleculares II",""],["o","2ºB · Bases Celulares e Moleculares II",""],["i","Intervalo",""],["o","2ºB · Bases Celulares e Moleculares II",""],["o","2ºB · Bases Celulares e Moleculares II",""],["l","",""]],[["o","2ºB · Inovação Tecnológica em Saúde",""],["o","2ºB · Inovação Tecnológica em Saúde",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]]],"106":[[["o","3ºA · Organização Morfológica e Funcional III",""],["o","3ºA · Organização Morfológica e Funcional III",""],["i","Intervalo",""],["o","3ºA · Organização Morfológica e Funcional III",""],["o","3ºA · Organização Morfológica e Funcional III",""],["l","",""],["o","3ºA · Organização Morfológica e Funcional III",""],["o","3ºA · Organização Morfológica e Funcional III",""],["i","Intervalo",""],["o","3ºA · Integração Serviço, Ensino e Comunidade III",""],["o","3ºA · Integração Serviço, Ensino e Comunidade III",""],["l","",""]],[["o","3ºA · Ética, Bioética e Legislação em Saúde em Medicina",""],["o","3ºA · Ética, Bioética e Legislação em Saúde em Medicina",""],["i","Intervalo",""],["o","3ºA · Bases Científicas da Medicina III",""],["o","3ºA · Bases Científicas da Medicina III",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","3ºA · Terapêutica I",""],["o","3ºA · Terapêutica I",""],["i","Intervalo",""],["o","3ºA · Terapêutica I",""],["l","",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["o","Acupuntura","Observação do Índice (3ºA)"],["o","Acupuntura","Observação do Índice (3ºA)"],["o","Acupuntura","Observação do Índice (3ºA)"]],[["o","3ºA · Mecanismo de Agressão e Defesa I",""],["o","3ºA · Mecanismo de Agressão e Defesa I",""],["i","Intervalo",""],["o","3ºA · Mecanismo de Agressão e Defesa I",""],["l","",""],["l","",""],["o","3ºA · Mecanismo de Agressão e Defesa I",""],["o","3ºA · Mecanismo de Agressão e Defesa I",""],["i","Intervalo",""],["o","3ºA · Mecanismo de Agressão e Defesa I",""],["l","",""],["l","",""]],[["o","3ºA · Bases Celulares e Moleculares III",""],["o","3ºA · Bases Celulares e Moleculares III",""],["i","Intervalo",""],["o","3ºA · Bases Celulares e Moleculares III",""],["o","3ºA · Bases Celulares e Moleculares III",""],["l","",""],["o","3ºA · Bases Celulares e Moleculares III",""],["o","3ºA · Bases Celulares e Moleculares III",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]]],"207":[[["o","4ºA · Bases Científicas da Medicina IV",""],["o","4ºA · Bases Científicas da Medicina IV",""],["i","Intervalo",""],["o","4ºA · Suporte Básico de Vida",""],["o","4ºA · Suporte Básico de Vida",""],["o","4ºA · Suporte Básico de Vida",""],["o","4ºA · Mecanismo de Agressão e Defesa II",""],["o","4ºA · Mecanismo de Agressão e Defesa II",""],["i","Intervalo",""],["o","4ºA · Mecanismo de Agressão e Defesa II",""],["o","4ºA · Mecanismo de Agressão e Defesa II",""],["l","",""]],[["o","4ºA · Terapêutica II",""],["o","4ºA · Terapêutica II",""],["i","Intervalo",""],["o","4ºA · Terapêutica II",""],["l","",""],["l","",""],["o","4ºA · Integração Serviço, Ensino e Comunidade IV",""],["o","4ºA · Integração Serviço, Ensino e Comunidade IV",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","4ºA · Semiologia Integrada I",""],["o","4ºA · Semiologia Integrada I",""],["i","Intervalo",""],["o","4ºA · Semiologia Integrada I",""],["o","4ºA · Semiologia Integrada I",""],["l","",""],["o","4ºA · Semiologia Integrada I",""],["o","4ºA · Semiologia Integrada I",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["o","4ºA · Saúde Mental I",""],["o","4ºA · Saúde Mental I",""],["i","Intervalo",""],["o","4ºA · Saúde Mental I",""],["l","",""],["l","",""]],[["o","4ºA · Mecanismo de Agressão e Defesa II",""],["o","4ºA · Mecanismo de Agressão e Defesa II",""],["i","Intervalo",""],["o","4ºA · Mecanismo de Agressão e Defesa II",""],["o","4ºA · Mecanismo de Agressão e Defesa II",""],["o","4ºA · Mecanismo de Agressão e Defesa II",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]]],"208":[[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["o","4ºB · Saúde Mental I","Parte da turma usa a sala extra 103"],["o","4ºB · Saúde Mental I","Parte da turma usa a sala extra 103"],["i","Intervalo",""],["o","4ºB · Saúde Mental I","Parte da turma usa a sala extra 103"],["l","",""],["l","",""]],[["o","4ºB · Semiologia Integrada I",""],["o","4ºB · Semiologia Integrada I",""],["i","Intervalo",""],["o","4ºB · Semiologia Integrada I",""],["o","4ºB · Semiologia Integrada I",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["o","4ºB · Integração Serviço, Ensino e Comunidade IV",""],["o","4ºB · Integração Serviço, Ensino e Comunidade IV",""],["l","",""]],[["o","4ºB · Mecanismo de Agressão e Defesa II",""],["o","4ºB · Mecanismo de Agressão e Defesa II",""],["i","Intervalo",""],["o","4ºB · Mecanismo de Agressão e Defesa II",""],["o","4ºB · Mecanismo de Agressão e Defesa II",""],["o","4ºB · Mecanismo de Agressão e Defesa II",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","4ºB · Suporte Básico de Vida",""],["o","4ºB · Suporte Básico de Vida",""],["i","Intervalo",""],["o","4ºB · Suporte Básico de Vida",""],["l","",""],["l","",""],["o","4ºB · Mecanismo de Agressão e Defesa II",""],["o","4ºB · Mecanismo de Agressão e Defesa II",""],["i","Intervalo",""],["o","4ºB · Mecanismo de Agressão e Defesa II",""],["o","4ºB · Mecanismo de Agressão e Defesa II",""],["l","",""]],[["o","4ºB · Bases Científicas da Medicina IV",""],["o","4ºB · Bases Científicas da Medicina IV",""],["i","Intervalo",""],["o","4ºB · Terapêutica II",""],["o","4ºB · Terapêutica II",""],["o","4ºB · Terapêutica II",""],["o","4ºB · Semiologia Integrada I",""],["o","4ºB · Semiologia Integrada I",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]]],"203":[[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["o","5ºA · Terapêutica III",""],["o","5ºA · Terapêutica III",""],["i","Intervalo",""],["o","5ºA · Semiologia Integrada II",""],["o","5ºA · Semiologia Integrada II",""],["o","5ºA · Semiologia Integrada II",""]],[["o","5ºA · Integração Serviço, Ensino e Comunidade V",""],["o","5ºA · Integração Serviço, Ensino e Comunidade V",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["l","",""],["o","5ºA · Técnicas Cirúrgicas e Anestesiologia",""],["i","Intervalo",""],["o","5ºA · Técnicas Cirúrgicas e Anestesiologia",""],["o","5ºA · Técnicas Cirúrgicas e Anestesiologia",""],["l","",""]],[["o","5ºA · Seminário de Pesquisa I",""],["o","5ºA · Seminário de Pesquisa I",""],["i","Intervalo",""],["o","5ºA · Atenção Integral à Saúde da Mulher I",""],["o","5ºA · Atenção Integral à Saúde da Mulher I",""],["l","",""],["o","5ºA · Técnicas Cirúrgicas e Anestesiologia",""],["o","5ºA · Técnicas Cirúrgicas e Anestesiologia",""],["i","Intervalo",""],["o","5ºA · Técnicas Cirúrgicas e Anestesiologia",""],["o","5ºA · Técnicas Cirúrgicas e Anestesiologia",""],["l","",""]],[["o","5ºA · Semiologia Integrada II",""],["o","5ºA · Semiologia Integrada II",""],["i","Intervalo",""],["o","5ºA · Semiologia Integrada II",""],["o","5ºA · Semiologia Integrada II",""],["l","",""],["o","5ºA · Atenção Integral à Saúde da Criança e Adolescente I",""],["o","5ºA · Atenção Integral à Saúde da Criança e Adolescente I",""],["i","Intervalo",""],["o","5ºA · Atenção Integral à Saúde da Criança e Adolescente I",""],["o","5ºA · Atenção Integral à Saúde da Criança e Adolescente I",""],["l","",""]],[["o","5ºA · Atenção Integral à Saúde da Mulher I",""],["o","5ºA · Atenção Integral à Saúde da Mulher I",""],["i","Intervalo",""],["o","5ºA · Atenção Integral à Saúde da Mulher I",""],["o","5ºA · Atenção Integral à Saúde da Mulher I",""],["l","",""],["o","5ºA · Saúde Mental II",""],["o","5ºA · Saúde Mental II",""],["i","Intervalo",""],["o","5ºA · Saúde Mental II",""],["l","",""],["l","",""]]],"104":[[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["o","5ºB · Saúde Mental II",""],["o","5ºB · Saúde Mental II",""],["i","Intervalo",""],["o","5ºB · Saúde Mental II",""],["o","5ºB · Seminário de Pesquisa I",""],["o","5ºB · Seminário de Pesquisa I",""]],[["o","5ºB · Semiologia Integrada II",""],["o","5ºB · Semiologia Integrada II",""],["i","Intervalo",""],["o","5ºB · Semiologia Integrada II",""],["o","5ºB · Semiologia Integrada II",""],["l","",""],["o","5ºB · Atenção Integral à Saúde da Mulher I",""],["o","5ºB · Atenção Integral à Saúde da Mulher I",""],["i","Intervalo",""],["o","5ºB · Atenção Integral à Saúde da Mulher I",""],["o","5ºB · Atenção Integral à Saúde da Mulher I",""],["l","",""]],[["o","5ºB · Atenção Integral à Saúde da Mulher I",""],["o","5ºB · Atenção Integral à Saúde da Mulher I",""],["i","Intervalo",""],["o","5ºB · Terapêutica III",""],["o","5ºB · Terapêutica III",""],["l","",""],["o","5ºB · Atenção Integral à Saúde da Criança e do Adolescente I",""],["o","5ºB · Atenção Integral à Saúde da Criança e do Adolescente I",""],["i","Intervalo",""],["o","5ºB · Atenção Integral à Saúde da Criança e do Adolescente I",""],["o","5ºB · Atenção Integral à Saúde da Criança e do Adolescente I",""],["l","",""]],[["o","5ºB · Técnicas Cirúrgicas e Anestesiologia",""],["o","5ºB · Técnicas Cirúrgicas e Anestesiologia",""],["i","Intervalo",""],["o","5ºB · Técnicas Cirúrgicas e Anestesiologia",""],["o","5ºB · Técnicas Cirúrgicas e Anestesiologia",""],["l","",""],["o","5ºB · Técnicas Cirúrgicas e Anestesiologia",""],["o","5ºB · Técnicas Cirúrgicas e Anestesiologia",""],["i","Intervalo",""],["o","5ºB · Técnicas Cirúrgicas e Anestesiologia",""],["l","",""],["l","",""]],[["o","5ºB · Integração Serviço, Ensino e Comunidade V",""],["o","5ºB · Integração Serviço, Ensino e Comunidade V",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["l","",""],["o","5ºB · Semiologia Integrada II",""],["i","Intervalo",""],["o","5ºB · Semiologia Integrada II",""],["o","5ºB · Semiologia Integrada II",""],["l","",""]]],"103":[[["o","6ºA · Gastro",""],["o","6ºA · Gastro",""],["i","Intervalo",""],["o","6ºA · Gastro",""],["o","6ºA · Gastro",""],["o","6ºA · Gastro",""],["o","4ºB · Saúde Mental I (Profa. Milma) — sala extra",""],["o","4ºB · Saúde Mental I (Profa. Milma) — sala extra",""],["i","Intervalo",""],["o","4ºB · Saúde Mental I (Profa. Milma) — sala extra",""],["o","4ºB · Saúde Mental I (Profa. Milma) — sala extra",""],["o","4ºB · Saúde Mental I (Profa. Milma) — sala extra",""]],[["l","","6º em prática em GO"],["l","","6º em prática em GO"],["i","Intervalo",""],["l","","6º em prática em GO"],["l","","6º em prática em GO"],["l","","6º em prática em GO"],["l","","Verificar datas de provas da turma"],["l","","Verificar datas de provas da turma"],["i","Intervalo",""],["l","","Verificar datas de provas da turma"],["l","","Verificar datas de provas da turma"],["l","","Verificar datas de provas da turma"]],[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["o","6ºA",""],["o","6ºA",""],["i","Intervalo",""],["o","6ºA",""],["o","6ºA",""],["o","6ºA",""]],[["o","6ºA · Infecto",""],["o","6ºA · Infecto",""],["i","Intervalo",""],["o","6ºA · Infecto",""],["o","6ºA · Infecto",""],["o","6ºA · Infecto",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["i","Intervalo",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""]],[["o","6ºA · AISCA",""],["o","6ºA · AISCA",""],["i","Intervalo",""],["o","6ºA · AISCA",""],["o","6ºA · AISCA",""],["o","6ºA · AISCA",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]]],"102":[[["l","","Verificar data do encontro de Dermato no cronograma"],["l","","Verificar data do encontro de Dermato no cronograma"],["i","Intervalo",""],["l","","Verificar data do encontro de Dermato no cronograma"],["l","","Verificar data do encontro de Dermato no cronograma"],["l","","Verificar data do encontro de Dermato no cronograma"],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["l","","6º em prática em GO"],["l","","6º em prática em GO"],["i","Intervalo",""],["l","","6º em prática em GO"],["l","","6º em prática em GO"],["l","","6º em prática em GO"],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["o","6ºB · AISCA",""],["o","6ºB · AISCA",""],["i","Intervalo",""],["o","6ºB · AISCA",""],["o","6ºB · AISCA",""],["o","6ºB · AISCA",""]],[["o","6ºB · Dermato",""],["o","6ºB · Dermato",""],["i","Intervalo",""],["o","6ºB · Dermato",""],["o","6ºB · Dermato",""],["o","6ºB · Dermato",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["i","Intervalo",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""]],[["l","","6ºB está junto com o 6ºA em outra sala"],["l","","6ºB está junto com o 6ºA em outra sala"],["i","Intervalo",""],["l","","6ºB está junto com o 6ºA em outra sala"],["l","","6ºB está junto com o 6ºA em outra sala"],["l","","6ºB está junto com o 6ºA em outra sala"],["o","6ºB · Endócrino",""],["o","6ºB · Endócrino",""],["i","Intervalo",""],["o","6ºB · Endócrino",""],["o","6ºB · Endócrino",""],["o","6ºB · Endócrino",""]]],"204":[[["o","7ºA · Cardio",""],["o","7ºA · Cardio",""],["i","Intervalo",""],["o","7ºA · Cardio",""],["o","7ºA · Cardio",""],["o","7ºA · Cardio",""],["l","","7ºA na Tutoria 1. Provas de Semiologia: 02/09, 14/10, 02/12"],["l","","7ºA na Tutoria 1. Provas de Semiologia: 02/09, 14/10, 02/12"],["i","Intervalo",""],["l","","7ºA na Tutoria 1. Provas de Semiologia: 02/09, 14/10, 02/12"],["l","","7ºA na Tutoria 1. Provas de Semiologia: 02/09, 14/10, 02/12"],["l","","7ºA na Tutoria 1. Provas de Semiologia: 02/09, 14/10, 02/12"]],[["o","7ºA · Uro",""],["o","7ºA · Uro",""],["i","Intervalo",""],["o","7ºA · Uro",""],["o","7ºA · Uro",""],["o","7ºA · Uro",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","7ºA · AISCA",""],["o","7ºA · AISCA",""],["i","Intervalo",""],["o","7ºA · AISCA",""],["o","7ºA · AISCA",""],["o","7ºA · AISCA",""],["c","7ºA · Nefro","Turma nas Tutorias 1–3; confirmar se a sala fica livre"],["c","7ºA · Nefro","Turma nas Tutorias 1–3; confirmar se a sala fica livre"],["i","Intervalo",""],["c","7ºA · Nefro","Turma nas Tutorias 1–3; confirmar se a sala fica livre"],["c","7ºA · Nefro","Turma nas Tutorias 1–3; confirmar se a sala fica livre"],["c","7ºA · Nefro","Turma nas Tutorias 1–3; confirmar se a sala fica livre"]],[["o","7ºA · Pneumo",""],["o","7ºA · Pneumo",""],["i","Intervalo",""],["o","7ºA · Pneumo",""],["o","7ºA · Pneumo",""],["o","7ºA · Pneumo",""],["o","Saúde Mental I (Profa. Milma) — sala extra 4ºB",""],["o","Saúde Mental I (Profa. Milma) — sala extra 4ºB",""],["i","Intervalo",""],["o","Saúde Mental I (Profa. Milma) — sala extra 4ºB",""],["o","Saúde Mental I (Profa. Milma) — sala extra 4ºB",""],["o","Saúde Mental I (Profa. Milma) — sala extra 4ºB",""]],[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["o","7ºA · ISEC",""],["o","7ºA · ISEC",""],["i","Intervalo",""],["o","7ºA · ISEC",""],["o","7ºA · ISEC",""],["o","7ºA · ISEC",""]]],"202":[[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","7ºB · Onco",""],["o","7ºB · Onco",""],["i","Intervalo",""],["o","7ºB · Onco",""],["o","7ºB · Onco",""],["o","7ºB · Onco",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["l","","7ºB nas salas de Tutoria 1 e 2"],["l","","7ºB nas salas de Tutoria 1 e 2"],["i","Intervalo",""],["l","","7ºB nas salas de Tutoria 1 e 2"],["l","","7ºB nas salas de Tutoria 1 e 2"],["l","","7ºB nas salas de Tutoria 1 e 2"],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","7ºB · Hemato",""],["o","7ºB · Hemato",""],["i","Intervalo",""],["o","7ºB · Hemato",""],["o","7ºB · Hemato",""],["o","7ºB · Hemato",""],["o","7ºB",""],["o","7ºB",""],["i","Intervalo",""],["o","7ºB",""],["o","7ºB",""],["o","7ºB",""]],[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["o","7ºB · AISCA",""],["o","7ºB · AISCA",""],["i","Intervalo",""],["o","7ºB · AISCA",""],["o","7ºB · AISCA",""],["o","7ºB · AISCA",""]]],"105":[[["o","8ºA · Orto",""],["o","8ºA · Orto",""],["i","Intervalo",""],["o","8ºA · Orto",""],["o","8ºA · Orto",""],["o","8ºA · Orto",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","8ºA · Urgência e Emergência",""],["o","8ºA · Urgência e Emergência",""],["i","Intervalo",""],["o","8ºA · Urgência e Emergência",""],["o","8ºA · Urgência e Emergência",""],["o","8ºA · Urgência e Emergência",""],["o","8ºA · Forense",""],["o","8ºA · Forense",""],["i","Intervalo",""],["o","8ºA · Forense",""],["o","8ºA · Forense",""],["o","8ºA · Forense",""]],[["o","8ºA · Otorrino",""],["o","8ºA · Otorrino",""],["i","Intervalo",""],["o","8ºA · Otorrino",""],["o","8ºA · Otorrino",""],["o","8ºA · Otorrino",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","8ºA · Neuro",""],["o","8ºA · Neuro",""],["i","Intervalo",""],["o","8ºA · Neuro",""],["o","8ºA · Neuro",""],["o","8ºA · Neuro",""],["o","8ºA",""],["o","8ºA",""],["i","Intervalo",""],["o","8ºA",""],["o","8ºA",""],["o","8ºA",""]],[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["l","","8º nas salas de Tutoria e na 205"],["l","","8º nas salas de Tutoria e na 205"],["i","Intervalo",""],["l","","8º nas salas de Tutoria e na 205"],["l","","8º nas salas de Tutoria e na 205"],["l","","8º nas salas de Tutoria e na 205"]]],"205":[[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","8ºB · Forense",""],["o","8ºB · Forense",""],["i","Intervalo",""],["o","8ºB · Forense",""],["o","8ºB · Forense",""],["o","8ºB · Forense",""],["o","8ºB · Urgência e Emergência",""],["o","8ºB · Urgência e Emergência",""],["i","Intervalo",""],["o","8ºB · Urgência e Emergência",""],["o","8ºB · Urgência e Emergência",""],["o","8ºB · Urgência e Emergência",""]],[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""]],[["o","8ºB · Oftalmo",""],["o","8ºB · Oftalmo",""],["i","Intervalo",""],["o","8ºB · Oftalmo",""],["o","8ºB · Oftalmo",""],["o","8ºB · Oftalmo",""],["o","8ºB · ISEC",""],["o","8ºB · ISEC",""],["i","Intervalo",""],["o","8ºB · ISEC",""],["o","8ºB · ISEC",""],["o","8ºB · ISEC",""]],[["l","",""],["l","",""],["i","Intervalo",""],["l","",""],["l","",""],["l","",""],["c","Tutoria 8º período","Planilha diz LIVRE, mas cita a 205 entre as salas de tutoria do 8º"],["c","Tutoria 8º período","Planilha diz LIVRE, mas cita a 205 entre as salas de tutoria do 8º"],["i","Intervalo",""],["c","Tutoria 8º período","Planilha diz LIVRE, mas cita a 205 entre as salas de tutoria do 8º"],["c","Tutoria 8º período","Planilha diz LIVRE, mas cita a 205 entre as salas de tutoria do 8º"],["c","Tutoria 8º período","Planilha diz LIVRE, mas cita a 205 entre as salas de tutoria do 8º"]]],"Tutoria 1":[[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","7ºA (Carol dos Anjos)",""],["o","7ºA (Carol dos Anjos)",""],["i","Intervalo",""],["o","7ºA (Carol dos Anjos)",""],["o","7ºA (Carol dos Anjos)",""],["o","7ºA (Carol dos Anjos)",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["o","7ºB",""],["o","7ºB",""],["i","Intervalo",""],["o","7ºB",""],["o","7ºB",""],["o","7ºB",""],["o","7ºA · Nefro (Daniela)",""],["o","7ºA · Nefro (Daniela)",""],["i","Intervalo",""],["o","7ºA · Nefro (Daniela)",""],["o","7ºA · Nefro (Daniela)",""],["o","7ºA · Nefro (Daniela)",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["i","Intervalo",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","Tutoria 8º período",""],["o","Tutoria 8º período",""],["i","Intervalo",""],["o","Tutoria 8º período",""],["o","Tutoria 8º período",""],["o","Tutoria 8º período",""]]],"Tutoria 2":[[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["o","7ºB",""],["o","7ºB",""],["i","Intervalo",""],["o","7ºB",""],["o","7ºB",""],["o","7ºB",""],["o","7ºA · Nefro (Carol Santa Rita)",""],["o","7ºA · Nefro (Carol Santa Rita)",""],["i","Intervalo",""],["o","7ºA · Nefro (Carol Santa Rita)",""],["o","7ºA · Nefro (Carol Santa Rita)",""],["o","7ºA · Nefro (Carol Santa Rita)",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["i","Intervalo",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","Tutoria 8º período",""],["o","Tutoria 8º período",""],["i","Intervalo",""],["o","Tutoria 8º período",""],["o","Tutoria 8º período",""],["o","Tutoria 8º período",""]]],"Tutoria 3":[[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","7ºA · Nefro (Karol Queiroz)",""],["o","7ºA · Nefro (Karol Queiroz)",""],["i","Intervalo",""],["o","7ºA · Nefro (Karol Queiroz)",""],["o","7ºA · Nefro (Karol Queiroz)",""],["o","7ºA · Nefro (Karol Queiroz)",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["i","Intervalo",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","Tutoria 8º período",""],["o","Tutoria 8º período",""],["i","Intervalo",""],["o","Tutoria 8º período",""],["o","Tutoria 8º período",""],["o","Tutoria 8º período",""]]],"Tutoria 4":[[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["i","Intervalo",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""],["o","Tutoria 6º período",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]]],"Sala 12":[[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["c","Tutoria 6ºB","Planilha marca com (?)"],["c","Tutoria 6ºB","Planilha marca com (?)"],["i","Intervalo",""],["c","Tutoria 6ºB","Planilha marca com (?)"],["c","Tutoria 6ºB","Planilha marca com (?)"],["c","Tutoria 6ºB","Planilha marca com (?)"]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]]],"Sala 13":[[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","Profa. Milma · 7ºA (Renata)","Também citada (?) para tutoria do 6ºB"],["o","Profa. Milma · 7ºA (Renata)","Também citada (?) para tutoria do 6ºB"],["i","Intervalo",""],["o","Profa. Milma · 7ºA (Renata)","Também citada (?) para tutoria do 6ºB"],["o","Profa. Milma · 7ºA (Renata)","Também citada (?) para tutoria do 6ºB"],["o","Profa. Milma · 7ºA (Renata)","Também citada (?) para tutoria do 6ºB"]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]]],"Sala 14":[[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["o","Profa. Milma · 7ºA (Yuri)",""],["o","Profa. Milma · 7ºA (Yuri)",""],["i","Intervalo",""],["o","Profa. Milma · 7ºA (Yuri)",""],["o","Profa. Milma · 7ºA (Yuri)",""],["o","Profa. Milma · 7ºA (Yuri)",""]],[["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""],["u","",""],["u","",""],["i","Intervalo",""],["u","",""],["u","",""],["u","",""]]]},"eventos":[{"sala":"101","data":"2026-07-28","turno":"M","label":"2ºA · P7 (ECG) ATS II — Prof. Saulo"},{"sala":"101","data":"2026-08-04","turno":"M","label":"2ºA · P7 (ECG) ATS II — Prof. Saulo"},{"sala":"101","data":"2026-09-08","turno":"M","label":"2ºA · P7 (ECG) ATS II — Prof. Saulo"},{"sala":"101","data":"2026-09-15","turno":"M","label":"2ºA · P7 (ECG) ATS II — Prof. Saulo"},{"sala":"101","data":"2026-10-27","turno":"M","label":"2ºA · P7 (ECG) ATS II — Prof. Saulo"},{"sala":"101","data":"2026-11-03","turno":"M","label":"2ºA · P7 (ECG) ATS II — Prof. Saulo"}],"calendario":{"inicio":"2026-07-27","fim":"2026-12-22","bloqueios":[{"data":"2026-08-01","tipo":"sem","label":"Sem atividade acadêmica"},{"data":"2026-08-27","tipo":"feriado","label":"Feriado · N. Sa. dos Prazeres"},{"data":"2026-08-28","tipo":"sem","label":"Sem atividade acadêmica/administrativa"},{"data":"2026-08-29","tipo":"sem","label":"Sem atividade acadêmica/administrativa"},{"data":"2026-09-07","tipo":"feriado","label":"Feriado · Independência do Brasil"},{"data":"2026-09-16","tipo":"feriado","label":"Feriado · Emancipação Política de Alagoas"},{"data":"2026-10-12","tipo":"feriado","label":"Feriado · N. Sa. Aparecida"},{"data":"2026-10-13","tipo":"feriado","label":"Feriado · Antecipação do Dia do Professor"},{"data":"2026-11-02","tipo":"feriado","label":"Feriado · Finados"},{"data":"2026-11-15","tipo":"feriado","label":"Feriado · Proclamação da República"},{"data":"2026-11-20","tipo":"feriado","label":"Feriado · Zumbi dos Palmares"},{"data":"2026-11-21","tipo":"sem","label":"Sem atividade acadêmica/administrativa"},{"data":"2026-11-30","tipo":"feriado","label":"Feriado · Dia do Evangélico"},{"data":"2026-12-08","tipo":"feriado","label":"Feriado · N. Sa. da Conceição"},{"data":"2026-12-11","tipo":"sem","label":"Sem atividade letiva · portal em atualização"}],"sabadosLetivos":["2026-08-08","2026-08-15","2026-08-22","2026-09-05","2026-09-12","2026-09-19","2026-09-26","2026-10-03","2026-10-10","2026-10-17","2026-10-24","2026-10-31","2026-11-07","2026-11-14","2026-11-28","2026-12-05"],"avisos":[{"de":"2026-11-04","ate":"2026-11-06","label":"VII Feira de Profissões (FECIAL)"},{"de":"2026-12-14","ate":"2026-12-18","label":"Reposição ou substituição de notas: a grade regular pode não valer"},{"de":"2026-12-22","ate":"2026-12-22","label":"Último dia do período letivo 2026.2"}],"inicioPorSala":{"201":"2026-08-03"}}};
+const SL = DATA.slots.map((s,i)=>{const [a,b]=s.split('-');const m=t=>+t.slice(0,2)*60+ +t.slice(3,5);return {i,label:s.replace('-','–'),ini:a,fim:b,a:m(a),b:m(b),int:DATA.intervalos.includes(i)}});
+const CLASS_SLOTS = SL.filter(s=>!s.int);
+const DOW=['Domingo','Segunda','Terça','Quarta','Quinta','Sexta','Sábado'];
+const MES=['jan','fev','mar','abr','mai','jun','jul','ago','set','out','nov','dez'];
+const ST_NAME={l:'Livre',o:'Ocupada',c:'A confirmar',r:'Reservada',u:'Sem grade',i:'Intervalo',b:'Dia não letivo'};
+const CAL=DATA.calendario;
+function dayInfo(date){
+  const dow=parse(date).getDay();
+  let block=CAL.bloqueios.find(b=>b.data===date)||null;
+  if(!block&&date>='2026-12-23'&&date<='2026-12-31') block={tipo:'recesso',label:'Recesso'};
+  if(!block&&date<CAL.inicio) block={tipo:'fora',label:'Antes do início do período letivo (27/07)'};
+  if(!block&&date>CAL.fim) block={tipo:'fora',label:'Fora do período letivo 2026.2'};
+  const avisos=CAL.avisos.filter(a=>date>=a.de&&date<=a.ate).map(a=>a.label);
+  const sabLetivo=dow===6&&CAL.sabadosLetivos.includes(date);
+  return {block,avisos,sabLetivo};
+}
+function bannerHTML(date){
+  const d=dayInfo(date); let h='';
+  if(d.block) h+=`<div class="banner ${d.block.tipo==='feriado'?'fer':''}"><span><b>${esc(d.block.label)}.</b> Todas as salas ficam bloqueadas para reserva neste dia.</span></div>`;
+  if(d.sabLetivo) h+=`<div class="banner info"><span><b>Sábado letivo.</b> Não há aulas na grade das salas; o calendário prevê uso para imprevistos e reposição.</span></div>`;
+  d.avisos.forEach(a=>h+=`<div class="banner info"><span><b>Calendário:</b> ${esc(a)}</span></div>`);
+  return h;
+}
+const $=id=>document.getElementById(id);
+const esc=s=>String(s??'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const pad=n=>String(n).padStart(2,'0');
+const iso=d=>`${d.getFullYear()}-${pad(d.getMonth()+1)}-${pad(d.getDate())}`;
+const parse=s=>{const [y,m,d]=s.split('-').map(Number);return new Date(y,m-1,d)};
+const fmtDay=s=>{const d=parse(s);return `${DOW[d.getDay()]}, ${d.getDate()} ${MES[d.getMonth()]}`};
+const ls={get(k){try{return localStorage.getItem(k)}catch(e){return null}},set(k,v){try{localStorage.setItem(k,v)}catch(e){}}};
+
+/* ---------- dados: reservas, mural e conta ---------- */
+const CFG=(window.SALAS_CONFIG&&window.SALAS_CONFIG.supabaseUrl&&window.SALAS_CONFIG.supabaseAnonKey)?window.SALAS_CONFIG:null;
+if(CFG) document.body.classList.add('gated');
+const store={mode:'local',all:[],mural:[],db:null,sb:null,me:{nome:ls.get('nome')||'',email:'',admin:false,muralLido:ls.get('mural-lido')||''}};
+Object.defineProperty(store,'list',{get(){return store.all.filter(r=>r.status!=='cancelada'&&r.tipo!=='liberacao')}});
+Object.defineProperty(store,'libs',{get(){return store.all.filter(r=>r.status!=='cancelada'&&r.tipo==='liberacao')}});
+const readJSON=k=>{try{return JSON.parse(ls.get(k)||'[]')}catch(e){return []}};
+store.all=readJSON('reservas-local'); store.mural=readJSON('mural-local');
+const nowISO=()=>new Date().toISOString();
+const fmtTSFull=ts=>{ if(!ts) return ''; return new Date(ts).toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',year:'numeric',hour:'2-digit',minute:'2-digit'}).replace(',',' às'); };
+const fmtTS=ts=>{ if(!ts) return ''; const d=new Date(ts); return d.toLocaleString('pt-BR',{day:'2-digit',month:'2-digit',hour:'2-digit',minute:'2-digit'}).replace(',',' às'); };
+function isMine(r){ return store.mode==='supa'? r.email&&r.email===store.me.email : (r.nome||'').trim().toLowerCase()===(store.me.nome||'').trim().toLowerCase()&&!!store.me.nome; }
+function changed(){ renderAll(); updateBadge(); renderUser(); }
+function loadLib(src){ return new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>rej(new Error('lib'));document.head.appendChild(s);}); }
+
+async function initStore(){
+  if(CFG) return initSupabase();
+  let db=null;
+  try{ if(window.claude&&window.claude.use) db=await window.claude.use('db'); }catch(e){db=null}
+  if(!db){ store.mode='local'; changed(); return; }
+  store.db=db; store.mode='db';
+  db.collection('reservas').onSnapshot(snap=>{ store.all=snap.docs.map(d=>({id:d.id,status:'ativa',...d.data()})); changed(); },
+    err=>{ if(err&&err.code==='revoked'){store.mode='readonly'; changed();} });
+  db.collection('mural').onSnapshot(snap=>{ store.mural=snap.docs.map(d=>({id:d.id,...d.data()})); changed(); }, ()=>{});
+  changed();
+}
+function saveLocal(){ ls.set('reservas-local',JSON.stringify(store.all)); ls.set('mural-local',JSON.stringify(store.mural)); }
+
+async function addRes(r){
+  r.status='ativa'; r.tipo=r.tipo||'reserva';
+  if(store.mode==='supa'){
+    const {error}=await store.sb.from('reservas').insert({tipo:r.tipo,sala:r.sala,data:r.data,ini:r.ini,fim:r.fim,atividade:r.atividade,responsavel:r.responsavel||null,reservado_por_nome:store.me.nome});
+    if(error){ const e=new Error(error.message); e.code=error.code==='23P01'?'conflict':'save'; throw e; }
+    await supaLoad(); return;
+  }
+  if(store.db){ await store.db.collection('reservas').add(r); return; }
+  r.id='L'+Date.now(); store.all.push(r); saveLocal(); changed();
+}
+async function liberarRes(id,nome,motivo){
+  const patch={status:'cancelada',canceladoPor:nome,canceladoEm:nowISO(),motivoCancel:motivo||''};
+  if(store.mode==='supa'){
+    const {data,error}=await store.sb.from('reservas').update({status:'cancelada',cancelado_por_nome:nome,motivo_cancelamento:motivo||null}).eq('id',id).eq('status','ativa').select('id');
+    if(error){ const e=new Error(error.message); if(/reserva neste hor/i.test(error.message)) e.code='reserved'; throw e; }
+    if(!data||!data.length){ const e=new Error('gone'); e.code='gone'; throw e; }
+    await supaLoad(); return;
+  }
+  if(store.db){ const rr=store.all.find(x=>x.id===id); if(rr&&rr.tipo==='liberacao'&&store.list.some(x=>x.sala===rr.sala&&x.data===rr.data&&x.ini<=rr.fim&&rr.ini<=x.fim)){ const e=new Error('reserved'); e.code='reserved'; throw e; }
+    await store.db.doc('reservas/'+id).update(patch); return; }
+  const r=store.all.find(x=>x.id===id); if(!r||r.status==='cancelada'){ const e=new Error('gone'); e.code='gone'; throw e; }
+  if(r.tipo==='liberacao'&&store.list.some(x=>x.sala===r.sala&&x.data===r.data&&x.ini<=r.fim&&r.ini<=x.fim)){ const e=new Error('reserved'); e.code='reserved'; throw e; }
+  Object.assign(r,patch); saveLocal(); changed();
+}
+async function addMsg(m){
+  if(store.mode==='supa'){
+    const {error}=await store.sb.from('mural').insert({texto:m.texto,sala:m.sala||null,data:m.data||null,autor_nome:store.me.nome});
+    if(error) throw new Error(error.message); await supaLoadMural(); return;
+  }
+  if(store.db){ await store.db.collection('mural').add(m); return; }
+  m.id='M'+Date.now(); store.mural.push(m); saveLocal(); changed();
+}
+async function delMsg(id){
+  if(store.mode==='supa'){ const {error}=await store.sb.from('mural').delete().eq('id',id); if(error) throw new Error(error.message); await supaLoadMural(); return; }
+  if(store.db){ await store.db.doc('mural/'+id).delete(); return; }
+  store.mural=store.mural.filter(x=>x.id!==id); saveLocal(); changed();
+}
+function canDelMsg(m){ return store.mode==='supa'? (m.email===store.me.email||store.me.admin) : isMine({nome:m.autorNome}); }
+async function markMuralRead(){
+  const newest=store.mural.reduce((a,m)=>m.criadoEm>a?m.criadoEm:a,'');
+  if(!newest||newest<=(store.me.muralLido||'')) return;
+  store.me.muralLido=newest; ls.set('mural-lido',newest); updateBadge();
+  if(store.mode==='supa') store.sb.rpc('marcar_mural_lido',{t:newest}).then(()=>{});
+}
+async function setMyName(n){
+  n=n.trim(); if(!n) return;
+  if(store.mode==='supa'){ const {error}=await store.sb.rpc('definir_meu_nome',{n}); if(error) throw new Error(error.message); }
+  store.me.nome=n; ls.set('nome',n); changed();
+}
+
+/* Supabase (versão GitHub) */
+const fromRow=r=>({id:r.id,tipo:r.tipo||'reserva',sala:r.sala,data:r.data,ini:r.ini,fim:r.fim,atividade:r.atividade,responsavel:r.responsavel||'',nome:r.reservado_por_nome,email:r.reservado_por_email,criadoEm:r.criado_em,
+  status:r.status,canceladoPor:r.cancelado_por_nome||'',canceladoEm:r.cancelado_em||'',motivoCancel:r.motivo_cancelamento||''});
+const fromMsg=m=>({id:m.id,texto:m.texto,sala:m.sala||'',data:m.data||'',autorNome:m.autor_nome,email:m.autor_email,criadoEm:m.criado_em});
+async function supaLoad(){ const {data,error}=await store.sb.from('reservas').select('*').order('data'); if(!error){ store.all=data.map(fromRow); changed(); } }
+async function supaLoadMural(){ const {data,error}=await store.sb.from('mural').select('*').order('criado_em',{ascending:false}).limit(300); if(!error){ store.mural=data.map(fromMsg); changed(); } }
+function authStep(step,msg){
+  ['au-loading','au-email','au-code','au-nome','au-negado'].forEach(id=>$(id).hidden=id!=='au-'+step);
+  $('au-err').hidden=!msg; if(msg) $('au-err').textContent=msg;
+  $('auth').hidden=false; document.body.classList.add('gated');
+}
+function authDone(){ $('auth').hidden=true; document.body.classList.remove('gated'); }
+let authEmail='', supaStarted=false;
+async function initSupabase(){
+  store.mode='supa'; authStep('loading');
+  try{ if(!window.supabase) await loadLib('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js'); }
+  catch(e){ authStep('loading','Não foi possível carregar o sistema de login. Verifique a internet e recarregue a página.'); return; }
+  const sb=store.sb=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseAnonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
+  sb.auth.onAuthStateChange((ev,session)=>{ if(ev==='SIGNED_OUT'){ supaStarted=false; authStep('email'); } else if(session&&!supaStarted) afterLogin(session); });
+  const {data:{session}}=await sb.auth.getSession();
+  if(session) afterLogin(session); else authStep('email');
+}
+async function afterLogin(session){
+  if(supaStarted) return; supaStarted=true;
+  const sb=store.sb; const email=(session.user.email||'').toLowerCase();
+  const {data,error}=await sb.from('membros').select('email,nome,admin,mural_lido_em').eq('email',email).maybeSingle();
+  if(error||!data){ supaStarted=false; $('au-negado-t').textContent=`O e-mail ${email} não está na lista do grupo. Peça a um administrador para incluir.`; authStep('negado'); return; }
+  store.me={nome:data.nome||'',email,admin:!!data.admin,muralLido:data.mural_lido_em||''};
+  if(!store.me.nome){ authStep('nome'); return; }
+  startSupa();
+}
+async function startSupa(){
+  authDone(); await Promise.all([supaLoad(),supaLoadMural()]);
+  let tmr; const refresh=which=>{ clearTimeout(tmr); tmr=setTimeout(()=>{ which==='mural'?supaLoadMural():supaLoad(); },250); };
+  store.sb.channel('salas-livres')
+    .on('postgres_changes',{event:'*',schema:'public',table:'reservas'},()=>refresh('reservas'))
+    .on('postgres_changes',{event:'*',schema:'public',table:'mural'},()=>refresh('mural'))
+    .subscribe();
+  document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ supaLoad(); supaLoadMural(); } });
+}
+$('au-email').onsubmit=async e=>{
+  e.preventDefault(); const email=$('au-e').value.trim().toLowerCase(); if(!email) return;
+  const b=$('au-send'); b.disabled=true; b.textContent='Enviando…';
+  try{
+    const ok=await store.sb.rpc('email_autorizado',{e:email});
+    if(ok.error) throw ok.error;
+    if(!ok.data){ authStep('email','Este e-mail não está na lista do grupo. Peça a um administrador para incluir.'); return; }
+    const {error}=await store.sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:true}});
+    if(error) throw error;
+    authEmail=email; $('au-sent').textContent=`Enviamos um link de acesso para ${email}. Abra o e-mail neste mesmo aparelho e toque em “Log In”. Se o e-mail trouxer um código de 6 dígitos, você também pode digitá-lo abaixo.`; authStep('code');
+  }catch(err){ authStep('email', /rate|seconds/i.test(err.message||'')?'Muitas tentativas seguidas. Aguarde um minuto e tente de novo.':'Não foi possível enviar o e-mail agora. Tente de novo em instantes.'); }
+  finally{ b.disabled=false; b.textContent='Enviar link de acesso'; }
+};
+$('au-code').onsubmit=async e=>{
+  e.preventDefault(); const token=$('au-c').value.replace(/\D/g,''); if(token.length<6) return;
+  const b=$('au-verify'); b.disabled=true;
+  const {error}=await store.sb.auth.verifyOtp({email:authEmail,token,type:'email'});
+  b.disabled=false; if(error) authStep('code','Código inválido ou vencido. Confira o e-mail mais recente ou peça um novo link.');
+};
+$('au-back').onclick=()=>authStep('email');
+$('au-nome').onsubmit=async e=>{ e.preventDefault(); const n=$('au-n').value.trim(); if(!n) return;
+  try{ await setMyName(n); startSupa(); }catch(err){ authStep('nome','Não foi possível salvar seu nome. Tente de novo.'); } };
+$('au-sair').onclick=async()=>{ await store.sb.auth.signOut(); authStep('email'); };
+
+/* ---------- status engine ---------- */
+function statusAt(sala,date,s){
+  const slot=SL[s]; if(slot.int) return {st:'i',label:'Intervalo',obs:''};
+  const di=dayInfo(date);
+  if(di.block) return {st:'b',label:di.block.label,obs:''};
+  const dow=parse(date).getDay();
+  let base;
+  const apoio=DATA.salas.find(x=>x.id===sala).andar==='Apoio';
+  if(dow===0||dow===6) base={st:apoio?'u':'l',label:'',obs:di.sabLetivo?'Sábado letivo: sem aulas na grade; reservado a imprevistos e reposições':'Fim de semana: sem aulas cadastradas'};
+  else { const [st,label,obs]=DATA.grade[sala][dow-1][s]; base={st,label,obs}; }
+  if(CAL.inicioPorSala[sala]&&date<CAL.inicioPorSala[sala]&&base.st==='o') base={st:'l',label:'',obs:'Aulas desta turma começam em '+CAL.inicioPorSala[sala].split('-').reverse().slice(0,2).join('/')};
+  const turno=s<6?'M':'T';
+  const ev=DATA.eventos.find(e=>e.sala===sala&&e.data===date&&e.turno===turno);
+  if(ev) base={st:'o',label:ev.label,obs:'Evento em data específica'};
+  if(base.st==='o'||base.st==='c'){ const lb=store.libs.find(x=>x.sala===sala&&x.data===date&&s>=x.ini&&s<=x.fim);
+    if(lb) base={st:'l',label:'',obs:`Aula da grade liberada neste dia: ${base.label||'uso fixo'}`,lib:lb,grade:base.label}; }
+  const r=store.list.find(x=>x.sala===sala&&x.data===date&&s>=x.ini&&s<=x.fim);
+  if(r && (base.st!=='o')) return {st:'r',label:`${r.atividade||r.motivo||'Reserva'}${r.responsavel?' · '+r.responsavel:''}`,obs:base.lib?base.obs:(base.label?`Grade: ${ST_NAME[base.st]} — ${base.label}`:''),res:r,lib:base.lib};
+  return base;
+}
+function runUntil(sala,date,s,match){ // last contiguous class slot with same status family
+  let last=s; for(let k=s+1;k<SL.length;k++){ if(SL[k].int) continue; const x=statusAt(sala,date,k); if(!match(x)) break; last=k; } return SL[last].fim;
+}
+function checkRange(sala,date,ini,fim){
+  const out={block:[],warn:[]};
+  for(let s=ini;s<=fim;s++){ if(SL[s].int) continue; const x=statusAt(sala,date,s);
+    if(x.st==='o'||x.st==='r'||x.st==='b') out.block.push({s,x}); else if(x.st==='c'||x.st==='u') out.warn.push({s,x}); }
+  return out;
+}
+
+/* ---------- time context ---------- */
+function nowContext(){
+  const n=new Date(); let d=new Date(n); const mins=n.getHours()*60+n.getMinutes();
+  let s=SL.findIndex(x=>!x.int&&mins<x.b); // current or next class slot
+  let label='Agora';
+  if(s>=0 && mins<SL[s].a) label= s===0?'Hoje, a partir das 07h30':'Próximo horário';
+  if(s<0){ d.setDate(d.getDate()+1); s=0; label='Próximo dia útil'; }
+  while(d.getDay()===0||d.getDay()===6){ d.setDate(d.getDate()+1); s=0; label='Próximo dia útil'; }
+  return {date:iso(d),s,label};
+}
+function slotOptions(sel,withInt){ sel.innerHTML=SL.filter(x=>withInt||!x.int).map(x=>`<option value="${x.i}">${x.label}</option>`).join(''); }
+
+/* ---------- views ---------- */
+const state={view:'agora',ag:nowContext(),agLabel:null,filter:'todas',gr:{mode:'sala',sala:'101',date:null},rf:'todas'};
+state.agLabel=state.ag.label;
+function show(v){
+  state.view=v;
+  for(const t of document.querySelectorAll('.tab')){ if(t.dataset.view===v) t.setAttribute('aria-current','page'); else t.removeAttribute('aria-current'); }
+  for(const id of ['agora','buscar','salas','reservas','mural']) $('v-'+id).hidden=id!==v;
+  if(v==='mural') state.muralPrev=store.me.muralLido||'';
+  ls.set('view',v); renderAll(); window.scrollTo(0,0);
+}
+document.querySelectorAll('.tab').forEach(t=>t.onclick=()=>show(t.dataset.view));
+
+function plate(sala,date,s){
+  const x=statusAt(sala.id,date,s); let what='';
+  if(x.st==='l') what=x.lib?`Liberada por ${x.lib.nome} · livre até ${runUntil(sala.id,date,s,y=>y.st==='l')}`:`Livre até ${runUntil(sala.id,date,s,y=>y.st==='l')}`;
+  else if(x.st==='o') what=`${x.label||'Ocupada'} · até ${runUntil(sala.id,date,s,y=>y.st==='o'&&y.label===x.label)}`;
+  else if(x.st==='r') what=`${x.label} · até ${SL[x.res.fim].fim}`;
+  else if(x.st==='c') what=`${x.label} (confirmar)`;
+  else if(x.st==='u') what='Sem grade cadastrada';
+  else if(x.st==='b') what=x.label;
+  const apoio=sala.andar==='Apoio';
+  return `<button class="plate${apoio?' apoio':''}" data-sala="${esc(sala.id)}" data-s="${s}" data-date="${date}">
+    <span class="num">${apoio?'':'<small>Sala</small>'}${esc(sala.id)}</span>
+    <span class="pill s-${x.st}">${x.lib&&x.st==='l'?'Livre · liberada':ST_NAME[x.st]}</span>
+    <span class="what">${esc(what)}</span></button>`;
+}
+function renderAgora(){
+  const {date,s}=state.ag;
+  $('ag-date').value=date; $('ag-slot').value=s;
+  $('ag-title').textContent=state.agLabel||fmtDay(date);
+  $('ag-time').textContent=`${SL[s].label}`;
+  $('ag-sub').textContent=fmtDay(date)+(DATA.eventos.some(e=>e.data===date)?' · há evento em data específica hoje':'');
+  $('ag-now').hidden=state.agLabel!==null;
+  $('ag-banner').innerHTML=bannerHTML(date);
+  const counts={l:0,o:0,r:0,c:0,u:0,b:0};
+  const all=DATA.salas.map(sa=>({sa,x:statusAt(sa.id,date,s)}));
+  all.forEach(({x})=>counts[x.st]=(counts[x.st]||0)+1);
+  const tot=DATA.salas.length;
+  const col={l:'var(--livre)',o:'var(--ocup)',r:'var(--res)',c:'var(--conf)',u:'var(--sem)',b:'var(--blk)'};
+  $('ag-tally').innerHTML=['l','r','c','o','u','b'].map(k=>`<i style="width:${counts[k]/tot*100}%;background:${col[k]};opacity:${k==='u'?.35:1}"></i>`).join('');
+  $('ag-legend').innerHTML=[['l','livres'],['o','ocupadas'],['r','reservadas'],['c','a confirmar'],['u','sem grade'],['b','bloqueadas']].filter(([k])=>counts[k]).map(([k,t])=>`<span><b>${counts[k]}</b> ${t}</span>`).join('');
+  const groups=['1º andar','2º andar','Apoio'];
+  $('ag-groups').innerHTML=groups.map(g=>{
+    const items=all.filter(({sa,x})=>sa.andar===g&&(state.filter==='todas'||x.st==='l'));
+    const title=g==='Apoio'?'Tutorias e salas de apoio':g;
+    return `<h2>${title}</h2>`+(items.length?`<div class="plates">${items.map(({sa})=>plate(sa,date,s)).join('')}</div>`:`<div class="empty">Nenhuma sala livre neste grupo.</div>`);
+  }).join('');
+}
+$('ag-date').onchange=e=>{ if(!e.target.value)return; state.ag.date=e.target.value; state.agLabel=null; renderAgora(); };
+$('ag-slot').onchange=e=>{ state.ag.s=+e.target.value; state.agLabel=null; renderAgora(); };
+$('ag-now').onclick=()=>{ state.ag=nowContext(); state.agLabel=state.ag.label; renderAgora(); };
+$('f-todas').onclick=()=>{state.filter='todas';$('f-todas').setAttribute('aria-pressed','true');$('f-livres').setAttribute('aria-pressed','false');renderAgora()};
+$('f-livres').onclick=()=>{state.filter='livres';$('f-livres').setAttribute('aria-pressed','true');$('f-todas').setAttribute('aria-pressed','false');renderAgora()};
+$('ag-groups').onclick=e=>{ const p=e.target.closest('.plate'); if(!p)return; openCell(p.dataset.sala,p.dataset.date,+p.dataset.s); };
+
+/* buscar */
+function renderBuscar(){
+  const date=$('bs-date').value; let ini=+$('bs-ini').value, fim=+$('bs-fim').value;
+  if(fim<ini){ fim=ini; $('bs-fim').value=fim; }
+  const livres=[],talvez=[],ocup=[];
+  for(const sa of DATA.salas){ const c=checkRange(sa.id,date,ini,fim);
+    if(c.block.length) ocup.push({sa,c}); else if(c.warn.length) talvez.push({sa,c}); else livres.push({sa}); }
+  const per=`${SL[ini].ini}–${SL[fim].fim}`;
+  $('bs-banner').innerHTML=bannerHTML(date);
+  if(dayInfo(date).block){ $('bs-out').innerHTML=`<div class="empty" style="margin-top:10px">Dia não letivo. Escolha outra data para ver salas livres.</div>`; return; }
+  const row=(sa,txt,btn=true,lib=null,gl=null)=>`<div class="row"><span class="num">${esc(sa.id)}</span><span class="txt"><strong>${esc(txt[0])}</strong>${esc(txt[1]||'')}</span>${btn?`<button class="btn sm primary" data-res="${esc(sa.id)}">Reservar</button>`:''}${lib?`<button class="btn sm danger" data-lib="${esc(lib)}">Cancelar reserva</button>`:''}${gl?`<button class="btn sm danger" data-libg="${esc(sa.id)}" data-s="${gl}">Liberar sala</button>`:''}</div>`;
+  let h=`<h2>${livres.length} livres · ${fmtDay(date)} · ${per}</h2>`;
+  h+= livres.length?`<div class="results">${livres.map(({sa})=>row(sa,[sa.andar==='Apoio'?'Sala de apoio':`Sala da turma ${sa.turma}`,''])).join('')}</div>`:`<div class="empty">Nenhuma sala livre o período inteiro. Tente encurtar o intervalo.</div>`;
+  if(talvez.length) h+=`<h2>A confirmar (${talvez.length})</h2><div class="results">${talvez.map(({sa,c})=>row(sa,[c.warn[0].x.st==='u'?'Sem grade cadastrada':'Uso a confirmar',c.warn[0].x.label||c.warn[0].x.obs||''])).join('')}</div>`;
+  if(ocup.length) h+=`<details class="more"${ocup.some(o=>o.c.block.some(b=>b.x.st==='r'))&&state.bsOpen?' open':''} id="bs-more"><summary>Ver ${ocup.length} salas ocupadas nesse período</summary><div class="results">${ocup.map(({sa,c})=>row(sa,[`${SL[c.block[0].s].ini} · ${c.block[0].x.label||'Ocupada'}`,c.block.length>1?` (+${c.block.length-1} horário${c.block.length>2?'s':''})`:''],false,(c.block.find(b=>b.x.st==='r')||{x:{}}).x.res?.id,(()=>{const g=c.block.find(b=>b.x.st==='o'); return g&&!c.block.some(b=>b.x.st==='r')&&date>=iso(new Date())?String(g.s):null})())).join('')}</div></details>`;
+  $('bs-out').innerHTML=h;
+}
+['bs-date','bs-ini','bs-fim'].forEach(id=>$(id).onchange=()=>{ if(id!=='bs-date')$('bs-quick').querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed','false')); renderBuscar(); });
+$('bs-out').onclick=e=>{ const g=e.target.closest('[data-libg]'); if(g){ openLiberarGrade(g.dataset.libg,$('bs-date').value,+g.dataset.s); return; } const l=e.target.closest('[data-lib]'); if(l){ openLiberar(l.dataset.lib); return; } const b=e.target.closest('[data-res]'); if(b) openRes({sala:b.dataset.res,data:$('bs-date').value,ini:+$('bs-ini').value,fim:+$('bs-fim').value}); };
+const QUICK=[['Manhã inteira',0,5],['Tarde inteira',6,11],['1º horário',0,1],['Pós-intervalo manhã',3,5]];
+$('bs-quick').innerHTML=QUICK.map(([t,a,b],k)=>`<button class="chip" data-q="${k}" aria-pressed="false">${t}</button>`).join('');
+$('bs-quick').onclick=e=>{ const b=e.target.closest('[data-q]'); if(!b)return; const [,a,z]=QUICK[+b.dataset.q]; $('bs-ini').value=a; $('bs-fim').value=z;
+  $('bs-quick').querySelectorAll('.chip').forEach(c=>c.setAttribute('aria-pressed',String(c===b))); renderBuscar(); };
+
+/* grade */
+function mondayOf(s){ const d=parse(s); const k=(d.getDay()+6)%7; d.setDate(d.getDate()-k); return d; }
+function cellHTML(sala,date,s){
+  const x=statusAt(sala,date,s);
+  if(x.st==='i') return `<td><span class="cell s-i"></span></td>`;
+  const txt=x.st==='l'?(x.lib?'Liberada':''):x.st==='u'?'':x.st==='b'?(s===0?x.label.replace('Feriado · ','Feriado: '):''):x.label;
+  return `<td><button class="cell s-${x.st}${x.obs&&x.st!=='r'&&!x.lib?' flag':''}" data-sala="${esc(sala)}" data-date="${date}" data-s="${s}" title="${esc(ST_NAME[x.st]+(x.label?' · '+x.label:''))}"><span>${esc(txt)}</span></button></td>`;
+}
+function renderGrade(){
+  const g=state.gr; if(!g.date) g.date=state.ag.date;
+  $('gv-sala').setAttribute('aria-pressed',String(g.mode==='sala')); $('gv-dia').setAttribute('aria-pressed',String(g.mode==='dia'));
+  $('gr-rooms').hidden=g.mode!=='sala';
+  const today=iso(new Date());
+  if(g.mode==='sala'){
+    const sa=DATA.salas.find(x=>x.id===g.sala);
+    $('gr-title').textContent=sa.andar==='Apoio'?sa.id:`Sala ${sa.id}`;
+    $('gr-sub').textContent=sa.andar==='Apoio'?'Sala de apoio · só os usos citados nas observações da planilha':`${sa.andar} · sala teórica do ${sa.turma}`;
+    $('gr-rooms').innerHTML=DATA.salas.map(x=>`<button class="chip" data-room="${esc(x.id)}" aria-pressed="${x.id===g.sala}">${esc(x.id)}</button>`).join('');
+    const mon=mondayOf(g.date); const days=[...Array(5)].map((_,k)=>{const d=new Date(mon);d.setDate(d.getDate()+k);return iso(d)});
+    $('gr-range').textContent=`${parse(days[0]).getDate()} ${MES[parse(days[0]).getMonth()]} – ${parse(days[4]).getDate()} ${MES[parse(days[4]).getMonth()]}`;
+    let h=`<table class="grid"><thead><tr><th class="t"></th>${days.map(d=>`<th class="${d===today?'today':''}">${DATA.dias[parse(d).getDay()-1]} ${parse(d).getDate()}${dayInfo(d).block?`<small>${esc(dayInfo(d).block.tipo==='feriado'?'Feriado':'Não letivo')}</small>`:''}</th>`).join('')}</tr></thead><tbody>`;
+    for(const sl of SL){ h+=`<tr class="${sl.int?'int':''}"><th class="t">${sl.int?'':sl.ini}</th>${days.map(d=>cellHTML(g.sala,d,sl.i)).join('')}</tr>`; }
+    $('gr-table').innerHTML=h+'</tbody></table>';
+  } else {
+    $('gr-title').textContent='Quadro do dia'; $('gr-sub').textContent=fmtDay(g.date)+' · todas as salas'+(dayInfo(g.date).block?' · '+dayInfo(g.date).block.label:'');
+    $('gr-range').textContent=`${parse(g.date).getDate()} ${MES[parse(g.date).getMonth()]}`;
+    let h=`<table class="grid board"><thead><tr><th class="r"></th>${CLASS_SLOTS.map(s=>`<th class="mono">${s.ini}</th>`).join('')}</tr></thead><tbody>`;
+    for(const sa of DATA.salas) h+=`<tr><th class="r">${esc(sa.id.replace('Tutoria ','Tut. '))}</th>${CLASS_SLOTS.map(s=>cellHTML(sa.id,g.date,s.i)).join('')}</tr>`;
+    $('gr-table').innerHTML=h+'</tbody></table>';
+  }
+}
+$('gv-sala').onclick=()=>{state.gr.mode='sala';renderGrade()};
+$('gv-dia').onclick=()=>{state.gr.mode='dia';renderGrade()};
+$('gr-rooms').onclick=e=>{const b=e.target.closest('[data-room]'); if(b){state.gr.sala=b.dataset.room; renderGrade();}};
+const shift=n=>{const d=parse(state.gr.date); d.setDate(d.getDate()+(state.gr.mode==='sala'?7*n:n)); if(state.gr.mode==='dia'){while(d.getDay()===0||d.getDay()===6)d.setDate(d.getDate()+n)} state.gr.date=iso(d); renderGrade();};
+$('gr-prev').onclick=()=>shift(-1); $('gr-next').onclick=()=>shift(1);
+$('gr-today').onclick=()=>{state.gr.date=nowContext().date; renderGrade();};
+$('gr-table').onclick=e=>{const c=e.target.closest('button.cell'); if(c) openCell(c.dataset.sala,c.dataset.date,+c.dataset.s);};
+
+/* reservas */
+function renderReservas(){
+  const today=iso(new Date());
+  setMode();
+  const quando=r=>`${fmtDay(r.data)} · ${SL[r.ini].ini}–${SL[r.fim].fim}`;
+  if(state.rf==='lib'){
+    const list=store.all.filter(r=>r.status==='cancelada').sort((a,b)=>String(b.canceladoEm).localeCompare(String(a.canceladoEm)));
+    $('rs-list').innerHTML= list.length? `<div class="day">${list.map(r=>{ const lib=r.tipo==='liberacao'; return `
+      <div class="resv lib"><span class="num">${esc(r.sala)}</span><span class="txt"><strong>${quando(r)} · ${esc(r.atividade||r.motivo||'')}</strong>${lib?'Sala liberada por '+esc(r.nome):(r.responsavel?'Responsável: '+esc(r.responsavel)+' · ':'')+'Reservado por '+esc(r.nome)}</span><span class="pill s-u">${lib?'Liberação desfeita':'Reserva cancelada'}</span>
+      <span class="lib-info">${lib?'Desfeita':'Cancelada'} por <b>${esc(r.canceladoPor||'—')}</b>${r.canceladoEm?' em '+fmtTS(r.canceladoEm):''}${r.motivoCancel?' · Motivo: '+esc(r.motivoCancel):''}</span></div>`}).join('')}</div>`
+      : `<div class="empty" style="margin-top:16px">Nenhum cancelamento registrado ainda.</div>`;
+    return;
+  }
+  if(state.rf==='grade'){
+    const list=store.libs.filter(r=>r.data>=today).sort((a,b)=>a.data.localeCompare(b.data)||a.ini-b.ini);
+    $('rs-list').innerHTML= list.length? `<div class="day">${list.map(r=>`
+      <div class="resv"><span class="num" style="color:var(--livre)">${esc(r.sala)}</span><span class="txt"><strong>${quando(r)}</strong>Aula liberada: ${esc(r.atividade)}${r.responsavel?' · Motivo: '+esc(r.responsavel):''}<br>Liberada por ${esc(r.nome)}${r.criadoEm&&r.criadoEm.length>12?' em '+fmtTS(r.criadoEm):''}</span>
+      <button class="btn sm danger" data-lib="${esc(r.id)}">Desfazer</button></div>`).join('')}</div>`
+      : `<div class="empty" style="margin-top:16px">Nenhuma sala liberada. Para liberar, toque numa sala ocupada pela grade (tela Agora ou Grade) e escolha “Liberar sala”.</div>`;
+    return;
+  }
+  let list=store.list.filter(r=>r.data>=today);
+  if(state.rf==='minhas') list=list.filter(isMine);
+  list.sort((a,b)=>a.data.localeCompare(b.data)||a.ini-b.ini||String(a.sala).localeCompare(b.sala));
+  if(!list.length){ $('rs-list').innerHTML=`<div class="empty" style="margin-top:16px">${state.rf==='minhas'?'Você não tem reservas futuras.':'Nenhuma reserva futura. Use “Nova reserva” ou reserve a partir da busca.'}</div>`; return; }
+  const by={}; list.forEach(r=>(by[r.data]=by[r.data]||[]).push(r));
+  $('rs-list').innerHTML=Object.entries(by).map(([d,rs])=>`<div class="day"><h3>${fmtDay(d)}</h3>${rs.map(r=>`
+    <div class="resv"><span class="num">${esc(r.sala)}</span><span class="txt"><strong>${SL[r.ini].ini}–${SL[r.fim].fim} · ${esc(r.atividade||r.motivo||'Atividade não informada')}</strong>${r.responsavel?'Responsável: '+esc(r.responsavel)+' · ':''}Reservado por ${esc(r.nome)}</span>
+    <button class="btn sm danger" data-lib="${esc(r.id)}">Cancelar</button>${dayInfo(r.data).block?`<span class="warn">Cai em dia não letivo: ${esc(dayInfo(r.data).block.label)}</span>`:''}</div>`).join('')}</div>`).join('');
+}
+function setRF(v){ state.rf=v; [['rf-todas','todas'],['rf-minhas','minhas'],['rf-grade','grade'],['rf-lib','lib']].forEach(([id,k])=>$(id).setAttribute('aria-pressed',String(k===v))); renderReservas(); }
+$('rf-todas').onclick=()=>setRF('todas'); $('rf-minhas').onclick=()=>setRF('minhas'); $('rf-grade').onclick=()=>setRF('grade'); $('rf-lib').onclick=()=>setRF('lib');
+$('rs-list').onclick=e=>{ const b=e.target.closest('[data-lib]'); if(b) openLiberar(b.dataset.lib); };
+function setMode(){
+  const t={db:'Reservas compartilhadas com o grupo',supa:'Reservas compartilhadas com o grupo',readonly:'Somente leitura',local:'Modo local: reservas ficam só neste navegador'}[store.mode];
+  $('mode').classList.toggle('live',store.mode==='db'||store.mode==='supa'); $('mode-t').textContent=t;
+}
+$('rs-new').onclick=()=>{ const c=nowContext(); openRes({sala:'101',data:c.date,ini:c.s,fim:c.s}); };
+
+/* dialogs */
+const dRes=$('dlg-res'), dCell=$('dlg-cell');
+$('r-sala').innerHTML=DATA.salas.map(s=>`<option value="${esc(s.id)}">${esc(s.andar==='Apoio'?s.id:'Sala '+s.id)}</option>`).join('');
+slotOptions($('r-ini')); slotOptions($('r-fim'));
+function openRes(p){
+  $('r-sala').value=p.sala; $('r-data').value=p.data;
+  const snap=v=>SL[v].int?v+1:v;
+  $('r-ini').value=snap(p.ini); $('r-fim').value=SL[p.fim].int?p.fim-1:p.fim;
+  $('r-nome').value=store.me.nome||''; $('r-nome').readOnly=store.mode==='supa'; $('r-atividade').value=''; $('r-resp').value='';
+  validateRes(); dRes.showModal();
+}
+function validateRes(){
+  const sala=$('r-sala').value, data=$('r-data').value; let ini=+$('r-ini').value, fim=+$('r-fim').value;
+  const box=$('r-check'); const ok=$('r-ok');
+  if(fim<ini){ $('r-fim').value=ini; fim=ini; }
+  if(!data){ box.className='check s-u'; box.textContent='Escolha a data.'; ok.disabled=true; return; }
+  if(data<iso(new Date())){ box.className='check s-o'; box.textContent='Essa data já passou.'; ok.disabled=true; return; }
+  const c=checkRange(sala,data,ini,fim);
+  if(c.block.length){ const b=c.block[0]; box.className='check s-o'; box.textContent= b.x.st==='b'?`Dia não letivo: ${b.x.label}. Escolha outra data.`:`Conflito às ${SL[b.s].ini}: ${b.x.st==='r'?'já reservada por ':''}${b.x.label||'ocupada'}.`; ok.disabled=true; return; }
+  ok.disabled=false;
+  if(c.warn.length){ const w=c.warn[0]; box.className='check s-c'; box.textContent= w.x.st==='u'?'Essa sala não tem grade cadastrada. Confirme com a coordenação antes de usar.':`Atenção: ${w.x.label}. ${w.x.obs||''}`; }
+  else { box.className='check s-l'; box.textContent=`Livre das ${SL[ini].ini} às ${SL[fim].fim}, ${fmtDay(data)}.`; }
+}
+['r-sala','r-data','r-ini','r-fim'].forEach(id=>$(id).addEventListener('change',validateRes));
+$('r-cancel').onclick=()=>dRes.close();
+$('res-form').onsubmit=async e=>{
+  e.preventDefault(); validateRes(); if($('r-ok').disabled) return;
+  const atividade=$('r-atividade').value.trim(); if(!atividade){ $('r-atividade').focus(); return; }
+  const nome=$('r-nome').value.trim(); if(!nome){ $('r-nome').focus(); return; }
+  if(store.mode!=='supa'&&nome!==store.me.nome){ store.me.nome=nome; ls.set('nome',nome); renderUser(); }
+  const r={sala:$('r-sala').value,data:$('r-data').value,ini:+$('r-ini').value,fim:+$('r-fim').value,atividade,responsavel:$('r-resp').value.trim(),nome,criadoEm:new Date().toISOString()};
+  $('r-ok').disabled=true;
+  try{ await addRes(r); dRes.close(); toast(`Sala ${r.sala} reservada · ${fmtDay(r.data)}, ${SL[r.ini].ini}–${SL[r.fim].fim}`); }
+  catch(err){ $('r-ok').disabled=false; const b=$('r-check'); b.className='check s-o';
+    b.textContent= err&&err.code==='conflict'?'Alguém acabou de reservar esse horário. Escolha outro horário ou sala.':err&&err.code==='quota_exceeded'?'O limite de reservas foi atingido. Libere reservas antigas e tente de novo.':'Não foi possível salvar. Verifique a conexão e tente de novo.'; }
+};
+function openCell(sala,date,s){
+  const x=statusAt(sala,date,s); const sa=DATA.salas.find(v=>v.id===sala);
+  const futuro=date>=iso(new Date());
+  $('dc-h').textContent=sa.andar==='Apoio'?sala:`Sala ${sala}`;
+  const rows=[['Quando',`${fmtDay(date)} · ${SL[s].label}`],['Situação',`<span class="pill s-${x.st}">${x.lib&&x.st==='l'?'Livre · liberada':ST_NAME[x.st]}</span>`]];
+  if(x.res){ rows.push(['Atividade',esc(x.res.atividade||x.res.motivo||'—')]); if(x.res.responsavel) rows.push(['Responsável',esc(x.res.responsavel)]); rows.push(['Reservado por',esc(x.res.nome)+(x.res.criadoEm&&x.res.criadoEm.length>12?' · '+fmtTS(x.res.criadoEm):'')]); rows.push(['Horário reservado',`${SL[x.res.ini].ini}–${SL[x.res.fim].fim}`]); }
+  else if(x.label) rows.push(['Uso',esc(x.label)]);
+  if(x.lib){ rows.push(['Aula da grade',esc(x.lib.atividade)]); rows.push(['Liberada por',esc(x.lib.nome)+(x.lib.criadoEm&&x.lib.criadoEm.length>12?' · '+fmtTS(x.lib.criadoEm):'')]); if(x.lib.responsavel) rows.push(['Motivo',esc(x.lib.responsavel)]); rows.push(['Período liberado',`${SL[x.lib.ini].ini}–${SL[x.lib.fim].fim}`]); }
+  if(x.st==='l') rows.push(['Livre até',runUntil(sala,date,s,y=>y.st==='l')]);
+  if(x.obs&&!x.lib) rows.push(['Observação',esc(x.obs)]);
+  if(sa.turma) rows.push(['Turma da sala',sa.turma]);
+  $('dc-kv').innerHTML=rows.map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
+  $('dc-res').hidden=!(!['o','r','i','b'].includes(x.st)&&futuro);
+  $('dc-res').onclick=()=>{ dCell.close(); openRes({sala,data:date,ini:s,fim:s}); };
+  // botão vermelho: cancelar reserva, liberar aula da grade, ou desfazer liberação
+  const b=$('dc-lib'); b.hidden=true;
+  if(futuro&&x.res){ b.hidden=false; b.textContent='Cancelar reserva'; b.onclick=()=>{ dCell.close(); openLiberar(x.res.id); }; }
+  else if(futuro&&(x.st==='o'||x.st==='c')){ b.hidden=false; b.textContent='Liberar sala'; b.onclick=()=>{ dCell.close(); openLiberarGrade(sala,date,s); }; }
+  else if(futuro&&x.lib){ b.hidden=false; b.textContent='Desfazer liberação'; b.onclick=()=>{ dCell.close(); openLiberar(x.lib.id); }; }
+  dCell.showModal();
+}
+$('dc-close').onclick=()=>dCell.close();
+[dRes,dCell].forEach(d=>d.addEventListener('click',e=>{ if(e.target===d) d.close(); }));
+let tt; function toast(m){ const t=$('toast'); t.textContent=m; t.hidden=false; clearTimeout(tt); tt=setTimeout(()=>t.hidden=true,3200); }
+
+
+/* cancelar reserva · liberar aula da grade · desfazer liberação */
+const dLib=$('dlg-lib'); let libCtx=null;
+slotOptions($('l-ini')); slotOptions($('l-fim'));
+function salaNome(id){ const sa=DATA.salas.find(v=>v.id===id); return sa&&sa.andar==='Apoio'?id:'sala '+id; }
+function openLiberar(id){
+  const r=store.all.find(x=>x.id===id); if(!r) return;
+  if(r.status==='cancelada'){ toast(r.tipo==='liberacao'?'Essa liberação já foi desfeita.':'Essa reserva já foi cancelada.'); return; }
+  const lib=r.tipo==='liberacao';
+  libCtx={mode:lib?'desfazer':'cancelar',id};
+  $('dl-h').textContent= lib?`Desfazer liberação · ${salaNome(r.sala)}`:`Cancelar reserva · ${salaNome(r.sala)}`;
+  $('dl-kv').innerHTML=(lib?[['Quando',`${fmtDay(r.data)} · ${SL[r.ini].ini}–${SL[r.fim].fim}`],['Aula da grade',esc(r.atividade)],['Liberada por',esc(r.nome)]]
+    :[['Quando',`${fmtDay(r.data)} · ${SL[r.ini].ini}–${SL[r.fim].fim}`],['Atividade',esc(r.atividade||r.motivo||'—')],...(r.responsavel?[['Responsável',esc(r.responsavel)]]:[]),['Reservado por',esc(r.nome)]])
+    .map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
+  $('l-periodo').hidden=true;
+  $('l-nome-lb').textContent= lib?'Seu nome (quem está desfazendo)':'Seu nome (quem está cancelando)';
+  $('l-ok').textContent= lib?'Desfazer liberação':'Cancelar reserva';
+  $('l-check').className='check s-c';
+  $('l-check').textContent= lib?'A aula da grade volta a ocupar a sala neste horário. O registro fica no Histórico.':'A sala fica livre neste horário. O cancelamento fica no Histórico com seu nome, data e hora.';
+  openLibCommon();
+}
+function openLiberarGrade(sala,date,s){
+  const x=statusAt(sala,date,s);
+  // bloco contínuo da mesma aula
+  const same=y=>(y.st==='o'||y.st==='c')&&y.label===x.label;
+  let a=s,z=s;
+  for(let k=s-1;k>=0;k--){ if(SL[k].int) continue; if(!same(statusAt(sala,date,k))) break; a=k; }
+  for(let k=s+1;k<SL.length;k++){ if(SL[k].int) continue; if(!same(statusAt(sala,date,k))) break; z=k; }
+  libCtx={mode:'grade',sala,date,label:x.label||'Uso fixo da grade'};
+  $('dl-h').textContent=`Liberar ${salaNome(sala)}`;
+  $('dl-kv').innerHTML=[['Dia',fmtDay(date)],['Aula da grade',esc(libCtx.label)]].map(([k,v])=>`<dt>${k}</dt><dd>${v}</dd>`).join('');
+  $('l-periodo').hidden=false; $('l-ini').value=a; $('l-fim').value=z;
+  $('l-nome-lb').textContent='Seu nome (quem está liberando)';
+  $('l-ok').textContent='Liberar sala';
+  openLibCommon(); validateLibGrade();
+}
+function validateLibGrade(){
+  if(!libCtx||libCtx.mode!=='grade') return;
+  let a=+$('l-ini').value, z=+$('l-fim').value; if(z<a){ z=a; $('l-fim').value=a; }
+  const cnt=[]; for(let k=a;k<=z;k++){ if(SL[k].int) continue; const y=statusAt(libCtx.sala,libCtx.date,k); if(y.st==='o'||y.st==='c') cnt.push(k); }
+  const box=$('l-check');
+  if(!cnt.length){ box.className='check s-o'; box.textContent='Nesse período a sala não está ocupada pela grade.'; $('l-ok').disabled=true; return; }
+  $('l-ok').disabled=false; box.className='check s-c';
+  box.textContent=`A sala fica livre das ${SL[a].ini} às ${SL[z].fim} só em ${fmtDay(libCtx.date)} e pode ser reservada. A grade dos outros dias não muda.`;
+}
+['l-ini','l-fim'].forEach(id=>$(id).addEventListener('change',validateLibGrade));
+function openLibCommon(){
+  $('l-nome').value=store.me.nome||''; $('l-nome').readOnly=store.mode==='supa'; $('l-motivo').value='';
+  $('l-ok').disabled=false; dLib.showModal();
+}
+$('l-cancel').onclick=()=>dLib.close();
+dLib.addEventListener('click',e=>{ if(e.target===dLib) dLib.close(); });
+$('lib-form').onsubmit=async e=>{
+  e.preventDefault(); const nome=$('l-nome').value.trim();
+  if(!nome){ $('l-check').className='check s-o'; $('l-check').textContent='Informe seu nome para registrar quem fez a alteração.'; $('l-nome').focus(); return; }
+  if(store.mode!=='supa'&&nome!==store.me.nome){ store.me.nome=nome; ls.set('nome',nome); renderUser(); }
+  const ok=$('l-ok'); ok.disabled=true; const motivo=$('l-motivo').value.trim();
+  try{
+    if(libCtx.mode==='grade'){
+      const a=+$('l-ini').value, z=+$('l-fim').value;
+      await addRes({tipo:'liberacao',sala:libCtx.sala,data:libCtx.date,ini:a,fim:z,atividade:libCtx.label,responsavel:motivo,nome,criadoEm:nowISO()});
+      dLib.close(); toast(`Sala liberada: ${fmtDay(libCtx.date)}, ${SL[a].ini}–${SL[z].fim}`);
+    } else {
+      await liberarRes(libCtx.id,nome,motivo); dLib.close();
+      toast(libCtx.mode==='desfazer'?'Liberação desfeita. A aula volta a aparecer na grade.':'Reserva cancelada. A sala está livre neste horário.');
+    }
+  }catch(err){ ok.disabled=false; const b=$('l-check'); b.className='check s-o';
+    b.textContent= err&&err.code==='gone'?'Isso já foi feito por outra pessoa. A tela foi atualizada.'
+      : err&&err.code==='reserved'?'Há uma reserva nesse horário. Cancele a reserva antes de desfazer a liberação.'
+      : err&&err.code==='conflict'?'Esse horário já foi liberado por outra pessoa.'
+      : 'Não foi possível salvar. Verifique a conexão e tente de novo.'; }
+};
+
+/* mural */
+$('mu-sala').innerHTML='<option value="">Sem sala</option>'+DATA.salas.map(s=>`<option value="${esc(s.id)}">${esc(s.andar==='Apoio'?s.id:'Sala '+s.id)}</option>`).join('');
+function unreadCount(){ const lido=store.me.muralLido||''; return store.mural.filter(m=>m.criadoEm>lido&&!(store.mode==='supa'?m.email===store.me.email:isMine({nome:m.autorNome}))).length; }
+function updateBadge(){ const n=unreadCount(); const b=$('badge-mural'); b.hidden=!n||state.view==='mural'; b.textContent=n>99?'99+':n; }
+function renderMural(){
+  const prev=state.muralPrev??(store.me.muralLido||'');
+  const list=[...store.mural].sort((a,b)=>String(b.criadoEm).localeCompare(String(a.criadoEm)));
+  $('mu-list').innerHTML= list.length? list.map(m=>{
+    const novo=m.criadoEm>prev&&!(store.mode==='supa'?m.email===store.me.email:isMine({nome:m.autorNome}));
+    const alvo=m.sala||m.data? `<button class="go" data-go-sala="${esc(m.sala)}" data-go-data="${esc(m.data)}">${m.sala?(m.sala.startsWith('T')||m.sala.startsWith('S')?esc(m.sala):'Sala '+esc(m.sala)):''}${m.sala&&m.data?' · ':''}${m.data?fmtDay(m.data):''} › ver na grade</button>`:'';
+    return `<article class="msg${novo?' novo':''}"><div class="mh"><b>${esc(m.autorNome)}</b><span>${fmtTS(m.criadoEm)}</span>${novo?'<span class="pill novo">Novo</span>':''}<span class="sp"></span>${canDelMsg(m)?`<button class="btn sm ghost danger" data-del-msg="${esc(m.id)}">Apagar</button>`:''}</div><p>${esc(m.texto)}</p>${alvo}</article>`;
+  }).join('') : `<div class="empty">Nenhum recado ainda. Escreva o primeiro acima.</div>`;
+  markMuralRead();
+}
+$('mu-form').onsubmit=async e=>{
+  e.preventDefault(); const texto=$('mu-texto').value.trim(); if(!texto){ $('mu-texto').focus(); return; }
+  if(!store.me.nome){ openConta('Antes de publicar, informe seu nome.'); return; }
+  const b=$('mu-ok'); b.disabled=true;
+  try{ await addMsg({texto,sala:$('mu-sala').value,data:$('mu-data').value,autorNome:store.me.nome,criadoEm:nowISO()});
+    $('mu-texto').value=''; $('mu-sala').value=''; $('mu-data').value=''; toast('Recado publicado'); }
+  catch(err){ toast('Não foi possível publicar. Tente de novo.'); } finally{ b.disabled=false; }
+};
+$('mu-list').onclick=async e=>{
+  const g=e.target.closest('[data-go-sala],[data-go-data]');
+  if(g&&g.classList.contains('go')){ const sala=g.dataset.goSala, data=g.dataset.goData||nowContext().date;
+    state.gr={mode:sala?'sala':'dia',sala:sala||state.gr.sala,date:data}; show('salas'); return; }
+  const d=e.target.closest('[data-del-msg]'); if(!d) return;
+  if(d.dataset.armed!=='1'){ d.dataset.armed='1'; d.textContent='Confirmar'; setTimeout(()=>{ if(d.isConnected){ d.dataset.armed=''; d.textContent='Apagar'; } },3000); return; }
+  d.disabled=true; try{ await delMsg(d.dataset.delMsg); toast('Recado apagado'); }catch(err){ d.disabled=false; toast('Não foi possível apagar.'); }
+};
+
+/* conta e membros */
+const dConta=$('dlg-conta');
+function renderUser(){ const t=store.me.nome?store.me.nome:'Informar nome'; $('user-m').textContent=t; $('user-d').textContent=t; }
+async function openConta(msg){
+  $('k-nome').value=store.me.nome||'';
+  $('k-info').textContent= msg || (store.mode==='supa'?`Conectado como ${store.me.email}${store.me.admin?' · administrador':''}`:'Seu nome fica salvo neste navegador e aparece nas reservas, liberações e recados.');
+  $('k-sair').hidden=store.mode!=='supa'; $('k-admin').hidden=!(store.mode==='supa'&&store.me.admin);
+  if(store.mode==='supa'&&store.me.admin) loadMembers();
+  dConta.showModal();
+}
+async function loadMembers(){
+  const {data,error}=await store.sb.from('membros').select('email,nome,admin').order('email');
+  if(error){ $('k-members').innerHTML='<p class="sub">Não foi possível carregar os membros.</p>'; return; }
+  $('k-members').innerHTML=data.map(m=>`<div class="member"><span class="txt">${esc(m.nome||'(ainda não entrou)')}<small>${esc(m.email)}${m.admin?' · administrador':''}</small></span>${m.email!==store.me.email?`<button class="btn sm danger" data-rm="${esc(m.email)}">Remover</button>`:''}</div>`).join('');
+}
+$('k-add').onclick=async()=>{
+  const email=$('k-email').value.trim().toLowerCase(); if(!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email)){ toast('Digite um e-mail válido.'); return; }
+  const {error}=await store.sb.from('membros').insert({email,admin:$('k-isadmin').checked});
+  if(error){ toast(error.code==='23505'?'Esse e-mail já está autorizado.':'Não foi possível adicionar.'); return; }
+  $('k-email').value=''; $('k-isadmin').checked=false; toast(`${email} autorizado`); loadMembers();
+};
+$('k-members').onclick=async e=>{
+  const b=e.target.closest('[data-rm]'); if(!b) return;
+  if(b.dataset.armed!=='1'){ b.dataset.armed='1'; b.textContent='Confirmar'; setTimeout(()=>{ if(b.isConnected){ b.dataset.armed=''; b.textContent='Remover'; } },3000); return; }
+  const {error}=await store.sb.from('membros').delete().eq('email',b.dataset.rm);
+  if(error){ toast('Não foi possível remover.'); return; } toast('Acesso removido'); loadMembers();
+};
+$('k-save').onclick=async()=>{ const n=$('k-nome').value.trim(); if(!n){ $('k-nome').focus(); return; }
+  try{ await setMyName(n); dConta.close(); toast('Nome salvo'); }catch(err){ toast('Não foi possível salvar o nome.'); } };
+$('k-close').onclick=()=>dConta.close();
+$('k-sair').onclick=async()=>{ dConta.close(); await store.sb.auth.signOut(); };
+dConta.addEventListener('click',e=>{ if(e.target===dConta) dConta.close(); });
+$('user-m').onclick=()=>openConta(); $('user-d').onclick=()=>openConta();
+
+
+/* ---------- exportação ---------- */
+const MESES_LONGO=['janeiro','fevereiro','março','abril','maio','junho','julho','agosto','setembro','outubro','novembro','dezembro'];
+const DOW_LONGO=['Domingo','Segunda-feira','Terça-feira','Quarta-feira','Quinta-feira','Sexta-feira','Sábado'];
+const fmtLong=s=>{const d=parse(s);return `${DOW_LONGO[d.getDay()]}, ${d.getDate()} de ${MESES_LONGO[d.getMonth()]} de ${d.getFullYear()}`};
+const fmtBR=s=>s.split('-').reverse().join('/');
+const LIBS={
+  pdf:['https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js','https://cdn.jsdelivr.net/npm/jspdf-autotable@3.8.2/dist/jspdf.plugin.autotable.min.js'],
+  xlsx:['https://cdn.jsdelivr.net/npm/exceljs@4.4.0/dist/exceljs.min.js']
+};
+const loaded={};
+function loadScript(src){ return loaded[src]||(loaded[src]=new Promise((res,rej)=>{const s=document.createElement('script');s.src=src;s.onload=res;s.onerror=()=>{delete loaded[src];rej(new Error('lib'))};document.head.appendChild(s);})); }
+async function ensureLib(k){ for(const src of LIBS[k]) await loadScript(src); }
+const downloadsP=(window.claude&&window.claude.use)?window.claude.use('downloads').catch(()=>null):Promise.resolve(null);
+async function saveFile(filename,data){
+  const dl=await downloadsP;
+  if(dl){ await dl.save({filename,data}); return; }
+  const url=URL.createObjectURL(new Blob([data])); const a=document.createElement('a');
+  a.href=url; a.download=filename; document.body.appendChild(a); a.click(); a.remove(); setTimeout(()=>URL.revokeObjectURL(url),5000);
+}
+const exp={scope:'dia',fmt:'pdf'};
+function semMonths(){ const out=[]; const [y0,m0]=CAL.inicio.split('-').map(Number); const [y1,m1]=CAL.fim.split('-').map(Number);
+  for(let y=y0,m=m0;y<y1||(y===y1&&m<=m1);m===12?(y++,m=1):m++) out.push(`${y}-${pad(m)}`); return out; }
+function expRange(){
+  if(exp.scope==='dia'){ const d=$('ex-date').value; return d?{de:d,ate:d,titulo:fmtLong(d),slug:d}:null; }
+  if(exp.scope==='mes'){ const v=$('ex-month').value; const [y,m]=v.split('-').map(Number); const last=new Date(y,m,0).getDate();
+    return {de:`${v}-01`,ate:`${v}-${pad(last)}`,titulo:`${MESES_LONGO[m-1][0].toUpperCase()+MESES_LONGO[m-1].slice(1)} de ${y}`,slug:`${MESES_LONGO[m-1]}-${y}`}; }
+  const de=$('ex-de').value, ate=$('ex-ate').value; if(!de||!ate) return null;
+  return {de,ate,titulo:`De ${fmtBR(de)} a ${fmtBR(ate)}`,slug:`${de}_a_${ate}`};
+}
+function buildExport(R){
+  const days=[]; for(let d=parse(R.de); iso(d)<=R.ate; d.setDate(d.getDate()+1)) days.push(iso(d));
+  const reservas=store.list.filter(r=>r.data>=R.de&&r.data<=R.ate).sort((a,b)=>a.data.localeCompare(b.data)||a.ini-b.ini||String(a.sala).localeCompare(b.sala));
+  const info=days.map(date=>{const dow=parse(date).getDay(); return {date,dow,di:dayInfo(date),hasRes:reservas.some(r=>r.data===date)}});
+  const quadro=info.filter(x=>!x.di.block&&((x.dow>=1&&x.dow<=5)||x.hasRes));
+  const naoLetivos=info.filter(x=>x.di.block&&((x.dow>=1&&x.dow<=5)||CAL.bloqueios.some(b=>b.data===x.date)));
+  const letivos=info.filter(x=>!x.di.block&&((x.dow>=1&&x.dow<=5)||x.di.sabLetivo)).length;
+  const avisos=[...new Set(info.flatMap(x=>x.di.avisos))];
+  const salasLib=store.libs.filter(r=>r.data>=R.de&&r.data<=R.ate).sort((a,b)=>a.data.localeCompare(b.data)||a.ini-b.ini);
+  const liberadas=store.all.filter(r=>r.status==='cancelada'&&r.tipo!=='liberacao'&&r.data>=R.de&&r.data<=R.ate).sort((a,b)=>a.data.localeCompare(b.data)||a.ini-b.ini);
+  return {...R,days,info,quadro,naoLetivos,letivos,reservas,liberadas,salasLib,avisos};
+}
+function cellText(x,max=60){
+  const cut=(s,n)=>{n=Math.min(n,max);return s.length>n?s.slice(0,n-1).trimEnd()+'…':s};
+  if(x.st==='l') return x.lib?'Livre (liberada)':'Livre'; if(x.st==='u') return '—';
+  if(x.st==='r') return 'Reserva: '+cut(x.label,54);
+  if(x.st==='c') return 'A confirmar: '+cut(x.label,50);
+  return cut(x.label||ST_NAME[x.st],60);
+}
+function updateExpSummary(){
+  const R=expRange(); const box=$('ex-sum'); const ok=$('ex-ok');
+  if(!R){ box.className='check s-u'; box.textContent='Escolha as datas.'; ok.disabled=true; return; }
+  if(R.ate<R.de){ box.className='check s-o'; box.textContent='A data final vem antes da inicial.'; ok.disabled=true; return; }
+  if(!$('ex-quadro').checked&&!$('ex-res').checked){ box.className='check s-o'; box.textContent='Marque pelo menos um item para incluir.'; ok.disabled=true; return; }
+  const X=buildExport(R);
+  const parts=[`${X.letivos} dia${X.letivos===1?'':'s'} letivo${X.letivos===1?'':'s'}`];
+  if(X.naoLetivos.length) parts.push(`${X.naoLetivos.length} não letivo${X.naoLetivos.length===1?'':'s'}`);
+  parts.push(`${X.reservas.length} reserva${X.reservas.length===1?'':'s'}`);
+  box.className='check s-l'; box.textContent=`${R.titulo}: ${parts.join(' · ')}.`; ok.disabled=false;
+}
+function openExport(date){
+  const d=date||nowContext().date;
+  $('ex-date').value=d; $('ex-de').value=$('ex-de').value||d; $('ex-ate').value=$('ex-ate').value||d;
+  const ms=semMonths(); $('ex-month').innerHTML=ms.map(v=>{const [y,m]=v.split('-').map(Number);return `<option value="${v}">${MESES_LONGO[m-1][0].toUpperCase()+MESES_LONGO[m-1].slice(1)} de ${y}</option>`}).join('');
+  $('ex-month').value=ms.includes(d.slice(0,7))?d.slice(0,7):ms[0];
+  $('ex-date').min=$('ex-de').min=$('ex-ate').min=CAL.inicio; $('ex-date').max=$('ex-de').max=$('ex-ate').max='2026-12-31';
+  syncExpUI(); $('dlg-exp').showModal();
+}
+function syncExpUI(){
+  $('ex-scope').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.scope===exp.scope)));
+  $('ex-fmt').querySelectorAll('button').forEach(b=>b.setAttribute('aria-pressed',String(b.dataset.fmt===exp.fmt)));
+  $('ex-dia').hidden=exp.scope!=='dia'; $('ex-mes').hidden=exp.scope!=='mes'; $('ex-per').hidden=exp.scope!=='periodo';
+  $('ex-ok').textContent=exp.fmt==='pdf'?'Exportar PDF':'Exportar Excel';
+  updateExpSummary();
+}
+$('ex-scope').onclick=e=>{const b=e.target.closest('[data-scope]'); if(b){exp.scope=b.dataset.scope; syncExpUI();}};
+$('ex-fmt').onclick=e=>{const b=e.target.closest('[data-fmt]'); if(b){exp.fmt=b.dataset.fmt; syncExpUI();}};
+['ex-date','ex-month','ex-de','ex-ate','ex-quadro','ex-res'].forEach(id=>$(id).addEventListener('change',updateExpSummary));
+$('ex-cancel').onclick=()=>$('dlg-exp').close();
+$('dlg-exp').addEventListener('click',e=>{ if(e.target===$('dlg-exp')) $('dlg-exp').close(); });
+$('gr-export').onclick=()=>openExport(state.gr.date);
+$('rs-export').onclick=()=>openExport(nowContext().date);
+$('exp-form').onsubmit=async e=>{
+  e.preventDefault(); updateExpSummary(); if($('ex-ok').disabled) return;
+  const R=expRange(); const X=buildExport(R); X.incQuadro=$('ex-quadro').checked; X.incRes=$('ex-res').checked;
+  const ok=$('ex-ok'); const label=ok.textContent; ok.disabled=true; ok.textContent='Gerando…';
+  try{
+    await ensureLib(exp.fmt);
+    const data= exp.fmt==='pdf'? genPDF(X) : await genXLSX(X);
+    const filename=`Salas_Medicina_${R.slug}.${exp.fmt}`;
+    await saveFile(filename,data);
+    $('dlg-exp').close(); toast(`${filename} pronto`);
+  }catch(err){
+    const b=$('ex-sum'); b.className='check s-o';
+    b.textContent= err&&err.code==='declined'?'Download cancelado.': err&&err.message==='lib'?'Não foi possível carregar o gerador de arquivos. Verifique a internet e tente de novo.':'Não foi possível gerar o arquivo. Tente de novo.';
+  }finally{ ok.disabled=false; ok.textContent=label; }
+};
+const RGB={ink:[21,32,46],muted:[88,101,119],accent:[39,84,138],line:[213,219,227],
+  bg:{l:[217,239,227],o:[246,220,215],c:[248,233,201],r:[229,223,246],u:[236,239,243],b:[210,215,223]},
+  fg:{l:[23,112,75],o:[150,48,36],c:[125,80,12],r:[82,60,150],u:[122,133,150],b:[63,72,87]}};
+const HEX=a=>a.map(v=>v.toString(16).padStart(2,'0')).join('').toUpperCase();
+function genPDF(X){
+  const {jsPDF}=window.jspdf; const doc=new jsPDF({orientation:'landscape',unit:'mm',format:'a4'});
+  const M=12, W=doc.internal.pageSize.getWidth(), H=doc.internal.pageSize.getHeight();
+  const gerado=new Date().toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
+  const head=(t1,t2)=>{ doc.setFont('helvetica','bold'); doc.setFontSize(16); doc.setTextColor(...RGB.ink); doc.text(t1,M,M+6);
+    doc.setFont('helvetica','normal'); doc.setFontSize(9.5); doc.setTextColor(...RGB.muted); doc.text(t2,M,M+12); return M+17; };
+  const tbl={theme:'grid',margin:{left:M,right:M,bottom:14},styles:{font:'helvetica',fontSize:8.5,cellPadding:1.8,lineColor:RGB.line,lineWidth:.2,textColor:RGB.ink},
+    headStyles:{fillColor:RGB.accent,textColor:[255,255,255],fontStyle:'bold'}};
+  let y=head('Salas Livres · Medicina CESMAC 2026.2',`${X.titulo}  ·  gerado em ${gerado}`);
+  const resumo=[`${X.letivos} dia(s) letivo(s)`,`${X.naoLetivos.length} dia(s) não letivo(s)`,`${X.reservas.length} reserva(s)`].join('   ·   ');
+  doc.setFontSize(11); doc.setTextColor(...RGB.ink); doc.text(resumo,M,y+2); y+=8;
+  if(X.naoLetivos.length||X.avisos.length){
+    const body=X.naoLetivos.map(x=>[fmtBR(x.date),DOW_LONGO[x.dow],x.di.block.label,'Salas bloqueadas']).concat(
+      X.avisos.map(a=>['','','Calendário: '+a,'Aviso']));
+    doc.autoTable({...tbl,startY:y,head:[['Data','Dia','Calendário institucional','Efeito']],body,columnStyles:{0:{cellWidth:24},1:{cellWidth:30},3:{cellWidth:36}}});
+    y=doc.lastAutoTable.finalY+8;
+  }
+  if(X.incRes){
+    doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(...RGB.ink); doc.text('Reservas',M,y); y+=3;
+    if(X.reservas.length){
+      doc.autoTable({...tbl,startY:y,head:[['Data','Sala','Horário','Atividade','Responsável pela atividade','Reservado por','Aviso']],
+        body:X.reservas.map(r=>[fmtBR(r.data),r.sala,`${SL[r.ini].ini}–${SL[r.fim].fim}`,r.atividade||r.motivo||'',r.responsavel||'',r.nome||'',dayInfo(r.data).block?'Dia não letivo':'']),
+        columnStyles:{0:{cellWidth:22},1:{cellWidth:22},2:{cellWidth:26},6:{cellWidth:26,textColor:RGB.fg.o}}});
+      y=doc.lastAutoTable.finalY+8;
+    } else { doc.setFont('helvetica','normal'); doc.setFontSize(10); doc.setTextColor(...RGB.muted); doc.text('Nenhuma reserva neste recorte.',M,y+5); y+=12; }
+    if(X.liberadas.length){
+      if(y>H-40){ doc.addPage(); y=M+6; }
+      doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(...RGB.ink); doc.text('Reservas canceladas',M,y); y+=3;
+      doc.autoTable({...tbl,startY:y,head:[['Data','Sala','Horário','Atividade','Reservado por','Cancelada por','Cancelada em','Motivo']],
+        body:X.liberadas.map(r=>[fmtBR(r.data),r.sala,`${SL[r.ini].ini}–${SL[r.fim].fim}`,r.atividade||r.motivo||'',r.nome||'',r.canceladoPor||'',fmtTSFull(r.canceladoEm),r.motivoCancel||'']),
+        styles:{...tbl.styles,textColor:RGB.muted},columnStyles:{0:{cellWidth:22},1:{cellWidth:20},2:{cellWidth:24},6:{cellWidth:28}}});
+      y=doc.lastAutoTable.finalY+8;
+    }
+    if(X.salasLib.length){
+      if(y>H-40){ doc.addPage(); y=M+6; }
+      doc.setFont('helvetica','bold'); doc.setFontSize(12); doc.setTextColor(...RGB.ink); doc.text('Salas liberadas (aulas da grade que não acontecem)',M,y); y+=3;
+      doc.autoTable({...tbl,startY:y,head:[['Data','Sala','Horário','Aula da grade','Motivo','Liberada por','Em']],
+        body:X.salasLib.map(r=>[fmtBR(r.data),r.sala,`${SL[r.ini].ini}–${SL[r.fim].fim}`,r.atividade||'',r.responsavel||'',r.nome||'',fmtTSFull(r.criadoEm)]),
+        columnStyles:{0:{cellWidth:22},1:{cellWidth:20},2:{cellWidth:24},6:{cellWidth:30}}});
+      y=doc.lastAutoTable.finalY+8;
+    }
+  }
+  if(X.incQuadro){
+    const cols=CLASS_SLOTS; const salaW=22; const cw=(W-2*M-salaW)/cols.length;
+    X.quadro.forEach(day=>{
+      doc.addPage(); let yy=head(`Quadro de ocupação · ${fmtLong(day.date)}`, day.di.avisos.length?'Calendário: '+day.di.avisos.join(' · '):(day.di.sabLetivo?'Sábado letivo · sem aulas na grade':'Semestre 2026.2 · grade das turmas + reservas do app'));
+      const body=DATA.salas.map(sa=>[{content:sa.id,styles:{fontStyle:'bold'}}].concat(cols.map(sl=>{const x=statusAt(sa.id,day.date,sl.i);
+        return {content:cellText(x,36),styles:{fillColor:RGB.bg[x.st]||[255,255,255],textColor:RGB.fg[x.st]||RGB.ink}}})));
+      doc.autoTable({...tbl,startY:yy,head:[['Sala'].concat(cols.map(s=>`${s.ini}–${s.fim}`))],body,
+        styles:{...tbl.styles,fontSize:6,cellPadding:.8,minCellHeight:7,valign:'middle',overflow:'linebreak'},
+        headStyles:{...tbl.headStyles,fontSize:7,halign:'center'},columnStyles:Object.fromEntries([[0,{cellWidth:salaW}]].concat(cols.map((_,k)=>[k+1,{cellWidth:cw}]))),pageBreak:'auto',rowPageBreak:'avoid'});
+    });
+  }
+  const n=doc.getNumberOfPages();
+  for(let p=1;p<=n;p++){ doc.setPage(p); doc.setFont('helvetica','normal'); doc.setFontSize(8); doc.setTextColor(...RGB.muted);
+    doc.text('Legenda: Livre · Ocupada (grade) · Reserva (app) · A confirmar · — sem grade cadastrada',M,H-7);
+    doc.text(`Página ${p} de ${n}`,W-M,H-7,{align:'right'}); }
+  return doc.output('arraybuffer');
+}
+async function genXLSX(X){
+  const wb=new ExcelJS.Workbook(); wb.creator='Salas Livres'; wb.created=new Date();
+  const F=(o={})=>({name:'Arial',size:10,...o});
+  const fill=hex=>({type:'pattern',pattern:'solid',fgColor:{argb:'FF'+hex}});
+  const border={top:{style:'thin',color:{argb:'FFD5DBE3'}},left:{style:'thin',color:{argb:'FFD5DBE3'}},bottom:{style:'thin',color:{argb:'FFD5DBE3'}},right:{style:'thin',color:{argb:'FFD5DBE3'}}};
+  const styleHead=row=>row.eachCell(c=>{c.font=F({bold:true,color:{argb:'FFFFFFFF'}});c.fill=fill(HEX(RGB.accent));c.border=border;c.alignment={vertical:'middle'}});
+  const gerado=new Date().toLocaleString('pt-BR',{dateStyle:'short',timeStyle:'short'});
+  // Resumo
+  const rs=wb.addWorksheet('Resumo'); rs.columns=[{width:26},{width:18},{width:48},{width:22}];
+  rs.addRow(['Salas Livres · Medicina CESMAC 2026.2']).font=F({bold:true,size:14});
+  rs.addRow([X.titulo]).font=F({bold:true,size:11,color:{argb:'FF'+HEX(RGB.accent)}});
+  rs.addRow([`Gerado em ${gerado}`]).font=F({color:{argb:'FF586577'}});
+  rs.addRow([]);
+  [['Dias letivos',X.letivos],['Dias não letivos',X.naoLetivos.length],['Reservas ativas',X.reservas.length],['Reservas canceladas',X.liberadas.length],['Salas liberadas',X.salasLib.length]].forEach(r=>{const row=rs.addRow(r);row.getCell(1).font=F({bold:true});row.getCell(2).font=F();});
+  rs.addRow([]);
+  if(X.naoLetivos.length||X.avisos.length){
+    styleHead(rs.addRow(['Data','Dia','Calendário institucional','Efeito']));
+    X.naoLetivos.forEach(x=>{const row=rs.addRow([fmtBR(x.date),DOW_LONGO[x.dow],x.di.block.label,'Salas bloqueadas']);row.eachCell(c=>{c.font=F();c.border=border});});
+    X.avisos.forEach(a=>{const row=rs.addRow(['','','Calendário: '+a,'Aviso']);row.eachCell(c=>{c.font=F();c.border=border});});
+  }
+  // Reservas
+  if(X.incRes){
+    const ws=wb.addWorksheet('Reservas',{views:[{state:'frozen',ySplit:1}]});
+    ws.columns=[{header:'Data',width:12},{header:'Dia',width:15},{header:'Sala',width:11},{header:'Início',width:9},{header:'Fim',width:9},{header:'Atividade',width:36},{header:'Responsável pela atividade',width:28},{header:'Reservado por',width:22},{header:'Aviso',width:30},{header:'Situação',width:12},{header:'Cancelada por',width:22},{header:'Cancelada em',width:17},{header:'Motivo do cancelamento',width:30}];
+    styleHead(ws.getRow(1));
+    [...X.reservas,...X.liberadas].sort((a,b)=>a.data.localeCompare(b.data)||a.ini-b.ini).forEach(r=>{const blk=dayInfo(r.data).block; const lib=r.status==='cancelada'; const row=ws.addRow([fmtBR(r.data),DOW_LONGO[parse(r.data).getDay()],r.sala,SL[r.ini].ini,SL[r.fim].fim,r.atividade||r.motivo||'',r.responsavel||'',r.nome||'',blk?'Dia não letivo: '+blk.label:'',lib?'Cancelada':'Ativa',lib?r.canceladoPor||'':'',lib?fmtTSFull(r.canceladoEm):'',lib?r.motivoCancel||'':'']);
+      row.eachCell({includeEmpty:true},c=>{c.font=F();c.border=border}); if(blk) row.getCell(9).font=F({color:{argb:'FF'+HEX(RGB.fg.o)}});});
+    if(X.salasLib.length){ const sl=wb.addWorksheet('Salas liberadas',{views:[{state:'frozen',ySplit:1}]});
+      sl.columns=[{header:'Data',width:12},{header:'Dia',width:15},{header:'Sala',width:11},{header:'Início',width:9},{header:'Fim',width:9},{header:'Aula da grade',width:40},{header:'Motivo',width:30},{header:'Liberada por',width:22},{header:'Liberada em',width:18}];
+      styleHead(sl.getRow(1));
+      X.salasLib.forEach(r=>{ const row=sl.addRow([fmtBR(r.data),DOW_LONGO[parse(r.data).getDay()],r.sala,SL[r.ini].ini,SL[r.fim].fim,r.atividade||'',r.responsavel||'',r.nome||'',fmtTSFull(r.criadoEm)]); row.eachCell({includeEmpty:true},c=>{c.font=F();c.border=border}); });
+      sl.autoFilter={from:'A1',to:'I1'}; }
+    if(!X.reservas.length&&!X.liberadas.length) ws.addRow(['Nenhuma reserva neste recorte.']).font=F({italic:true,color:{argb:'FF586577'}});
+    else ws.autoFilter={from:'A1',to:'M1'};
+  }
+  if(X.incQuadro){
+    // Quadro por dia (blocos)
+    const q=wb.addWorksheet('Quadro por dia'); q.getColumn(1).width=12; CLASS_SLOTS.forEach((_,k)=>q.getColumn(k+2).width=22);
+    X.quadro.forEach(day=>{
+      const t=q.addRow([fmtLong(day.date)+(day.di.avisos.length?'  ·  '+day.di.avisos.join(' · '):'')]); t.font=F({bold:true,size:12,color:{argb:'FF'+HEX(RGB.accent)}}); t.height=20;
+      styleHead(q.addRow(['Sala'].concat(CLASS_SLOTS.map(s=>`${s.ini}–${s.fim}`))));
+      DATA.salas.forEach(sa=>{
+        const xs=CLASS_SLOTS.map(sl=>statusAt(sa.id,day.date,sl.i));
+        const row=q.addRow([sa.id].concat(xs.map(cellText))); row.height=30;
+        row.getCell(1).font=F({bold:true}); row.getCell(1).border=border;
+        xs.forEach((x,k)=>{const c=row.getCell(k+2); c.font=F({size:8,color:{argb:'FF'+HEX(RGB.fg[x.st]||RGB.ink)}}); c.fill=fill(HEX(RGB.bg[x.st]||[255,255,255])); c.border=border; c.alignment={wrapText:true,vertical:'top'};});
+      });
+      q.addRow([]);
+    });
+    // Ocupação em lista
+    const o=wb.addWorksheet('Ocupação (lista)',{views:[{state:'frozen',ySplit:1}]});
+    o.columns=[{header:'Data',width:12},{header:'Dia',width:15},{header:'Sala',width:11},{header:'Horário',width:14},{header:'Situação',width:14},{header:'Uso / atividade',width:48},{header:'Observação',width:48}];
+    styleHead(o.getRow(1));
+    X.quadro.forEach(day=>DATA.salas.forEach(sa=>CLASS_SLOTS.forEach(sl=>{const x=statusAt(sa.id,day.date,sl.i);
+      const row=o.addRow([fmtBR(day.date),DOW_LONGO[day.dow],sa.id,sl.label,ST_NAME[x.st],x.label||'',x.obs||'']); row.font=F(); row.getCell(5).fill=fill(HEX(RGB.bg[x.st]||[255,255,255]));})));
+    o.autoFilter={from:'A1',to:'G1'};
+  }
+  return await wb.xlsx.writeBuffer();
+}
+
+/* boot */
+slotOptions($('ag-slot')); slotOptions($('bs-ini')); slotOptions($('bs-fim'));
+(function(){ const c=nowContext(); $('bs-date').value=c.date; $('bs-ini').value=c.s; let f=c.s+1; if(f<SL.length&&SL[f].int)f++; $('bs-fim').value=f<SL.length?f:c.s; })();
+function renderAll(){ if(state.view==='agora')renderAgora(); else if(state.view==='buscar')renderBuscar(); else if(state.view==='salas')renderGrade(); else if(state.view==='mural')renderMural(); else renderReservas(); }
+setInterval(()=>{ if(state.view==='agora'&&state.agLabel){ const c=nowContext(); if(c.s!==state.ag.s||c.date!==state.ag.date){state.ag=c;state.agLabel=c.label;renderAgora();} } },60000);
+const v0=ls.get('view'); show(['agora','buscar','salas','reservas','mural'].includes(v0)?v0:'agora');
+renderUser(); updateBadge();
+initStore();
+</script>
+</body>
+</html>
