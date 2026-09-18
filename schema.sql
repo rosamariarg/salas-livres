@@ -86,6 +86,14 @@ do $$ begin
     alter table public.reservas add constraint reservas_tipo_valido check (tipo in ('reserva', 'liberacao'));
   end if;
 end $$;
+-- serie: liga as datas de uma reserva repetida (ex.: todas as quintas do semestre)
+alter table public.reservas add column if not exists serie text;
+do $$ begin
+  if not exists (select 1 from pg_constraint where conname = 'reservas_serie_tam') then
+    alter table public.reservas add constraint reservas_serie_tam check (serie is null or char_length(serie) <= 40);
+  end if;
+end $$;
+create index if not exists reservas_serie on public.reservas (serie) where serie is not null;
 drop index if exists public.reservas_sala_data;
 create index if not exists reservas_sala_data_tipo on public.reservas (sala, data, tipo) where status = 'ativa';
 
@@ -122,10 +130,10 @@ begin
   ) then
     raise exception 'Há reserva neste horário; cancele a reserva antes de desfazer a liberação';
   end if;
-  if (new.id, new.tipo, new.sala, new.data, new.ini, new.fim, new.atividade, new.responsavel,
+  if (new.id, new.tipo, new.serie, new.sala, new.data, new.ini, new.fim, new.atividade, new.responsavel,
       new.reservado_por_nome, new.reservado_por_email, new.criado_em)
      is distinct from
-     (old.id, old.tipo, old.sala, old.data, old.ini, old.fim, old.atividade, old.responsavel,
+     (old.id, old.tipo, old.serie, old.sala, old.data, old.ini, old.fim, old.atividade, old.responsavel,
       old.reservado_por_nome, old.reservado_por_email, old.criado_em) then
     raise exception 'Os dados da reserva não podem ser alterados';
   end if;

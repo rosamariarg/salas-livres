@@ -18,8 +18,8 @@ A configuração leva cerca de 30 minutos e é feita uma vez só.
 | `index.html` | O app inteiro, com a grade das salas e o calendário 2026.2. |
 | `config.js` | Onde você cola as 2 chaves do Supabase (passo 3). |
 | `schema.sql` | Cria as tabelas, as regras de acesso e a trava contra reserva duplicada. |
-| `manifest.webmanifest`, ícones `.png` | Permitem instalar o app na tela inicial do celular. |
-
+| `manifest.webmanifest`, `` | Permitem instalar o app na tela inicial do celular. |
+| `.nojekyll` | Arquivo técnico do GitHub Pages. Pode deixar como está. |
 
 ---
 
@@ -40,8 +40,8 @@ A configuração leva cerca de 30 minutos e é feita uma vez só.
 1. No GitHub, clique em **New repository**.
    - **Nome:** `salas-livres`.
    - **Visibilidade:** **Public**. O GitHub Pages gratuito exige repositório público. Os dados continuam protegidos pelo login; veja a seção "Segurança".
-2. No repositório vazio, clique em **uploading an existing file**. Arraste **todo o conteúdo desta pasta** e clique em **Commit changes**.
-
+2. No repositório vazio, clique em **uploading an existing file**. Arraste **todo o conteúdo desta pasta**, incluindo as pastas `icons` e `supabase` e o arquivo `.nojekyll`, e clique em **Commit changes**.
+   - Se o `.nojekyll` não aparecer no seu computador, tudo bem, o app funciona sem ele.
 3. Vá em **Settings › Pages**.
    - Em *Build and deployment*, escolha **Deploy from a branch**.
    - Selecione a branch **main**, a pasta **/(root)** e clique em **Save**.
