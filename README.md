@@ -18,8 +18,7 @@ A configuração leva cerca de 30 minutos e é feita uma vez só.
 | `index.html` | O app inteiro, com a grade das salas e o calendário 2026.2. |
 | `config.js` | Onde você cola as 2 chaves do Supabase (passo 3). |
 | `schema.sql` | Cria as tabelas, as regras de acesso e a trava contra reserva duplicada. |
-| `manifest.webmanifest`, `` | Permitem instalar o app na tela inicial do celular. |
-| `.nojekyll` | Arquivo técnico do GitHub Pages. Pode deixar como está. |
+| `manifest.webmanifest`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` | Permitem instalar o app na tela inicial do celular. |
 
 ---
 
@@ -40,8 +39,7 @@ A configuração leva cerca de 30 minutos e é feita uma vez só.
 1. No GitHub, clique em **New repository**.
    - **Nome:** `salas-livres`.
    - **Visibilidade:** **Public**. O GitHub Pages gratuito exige repositório público. Os dados continuam protegidos pelo login; veja a seção "Segurança".
-2. No repositório vazio, clique em **uploading an existing file**. Arraste **todo o conteúdo desta pasta**, incluindo as pastas `icons` e `supabase` e o arquivo `.nojekyll`, e clique em **Commit changes**.
-   - Se o `.nojekyll` não aparecer no seu computador, tudo bem, o app funciona sem ele.
+2. No repositório vazio, clique em **uploading an existing file**. Arraste **todos os arquivos desta pasta** e clique em **Commit changes**.
 3. Vá em **Settings › Pages**.
    - Em *Build and deployment*, escolha **Deploy from a branch**.
    - Selecione a branch **main**, a pasta **/(root)** e clique em **Save**.
@@ -83,6 +81,9 @@ No Supabase, em **Authentication**:
 ---
 
 ## Regras do app
+
+- **Reservar um turno inteiro:** no formulário de reserva, os botões **Manhã inteira** (07h30–12h00), **Tarde inteira** (13h20–17h50) e **Dia inteiro** preenchem os horários de uma vez.
+- **Reserva repetida:** em **Repetir**, escolha *Toda semana, no mesmo dia* ou *A cada 15 dias* e a data limite (por padrão, 22/12, fim do semestre). O app mostra quantas datas serão criadas e quais serão puladas por feriado, aula na grade ou reserva de outra pessoa. Ao cancelar uma delas, dá para cancelar todas as datas futuras da mesma repetição.
 
 - **Reservar:** qualquer membro pode reservar. O app bloqueia horário com aula na grade, dia não letivo e horário já reservado. A trava vale também no banco, então dois cliques simultâneos não geram reserva duplicada.
 - **Cancelar reserva:**
