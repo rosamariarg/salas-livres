@@ -390,6 +390,12 @@ fieldset.opts input{width:18px;height:18px;accent-color:var(--accent)}
     <h2 id="dk-h">Sua conta</h2>
     <div class="field"><label for="k-nome">Seu nome</label><input class="inp" id="k-nome" maxlength="60" placeholder="Como seu nome aparece para o grupo"></div>
     <p class="sub" id="k-info" style="margin:0"></p>
+    <div id="k-senha-wrap" hidden>
+      <div class="grid2" style="align-items:end">
+        <div class="field"><label for="k-senha">Nova senha</label><input class="inp" type="password" id="k-senha" autocomplete="new-password" minlength="8" placeholder="Ao menos 8 caracteres"></div>
+        <button type="button" class="btn" id="k-senha-ok">Trocar senha</button>
+      </div>
+    </div>
     <div id="k-admin" hidden>
       <h2 style="margin:8px 0 4px;font:600 13px var(--sans);letter-spacing:.08em;text-transform:uppercase;color:var(--muted)">Membros do grupo</h2>
       <div class="grid2" style="align-items:end">
@@ -407,16 +413,33 @@ fieldset.opts input{width:18px;height:18px;accent-color:var(--accent)}
   <div class="auth-card">
     <div><span style="font-size:12px;color:var(--muted);letter-spacing:.06em;text-transform:uppercase">Medicina · 2026.2</span><h1>Salas Livres</h1></div>
     <div id="au-loading"><p>Carregando…</p></div>
-    <form id="au-email" hidden style="display:flex;flex-direction:column;gap:12px">
-      <p>Entre com o e-mail autorizado pela coordenação. Você recebe um link de acesso, sem senha.</p>
-      <div class="field"><label for="au-e">E-mail</label><input class="inp" type="email" id="au-e" autocomplete="email" required placeholder="nome@exemplo.com"></div>
-      <button class="btn primary" type="submit" id="au-send">Enviar link de acesso</button>
+    <form id="au-login" hidden style="display:flex;flex-direction:column;gap:12px">
+      <p>Entre com o e-mail autorizado pela coordenação e a sua senha.</p>
+      <div class="field"><label for="au-e">E-mail</label><input class="inp" type="email" id="au-e" autocomplete="email" required placeholder="nome@cesmac.edu.br"></div>
+      <div class="field"><label for="au-p">Senha</label><input class="inp" type="password" id="au-p" autocomplete="current-password" required></div>
+      <button class="btn primary" type="submit" id="au-entrar">Entrar</button>
+      <button class="linkbtn" type="button" id="au-ir-criar">Primeiro acesso? Criar minha senha</button>
+      <button class="linkbtn" type="button" id="au-ir-recuperar">Esqueci minha senha</button>
     </form>
-    <form id="au-code" hidden style="display:flex;flex-direction:column;gap:12px">
-      <p id="au-sent"></p>
-      <div class="field"><label for="au-c">Código (se houver)</label><input class="inp mono" id="au-c" inputmode="numeric" autocomplete="one-time-code" maxlength="10" placeholder="123456"></div>
-      <button class="btn primary" type="submit" id="au-verify">Entrar com o código</button>
-      <button class="linkbtn" type="button" id="au-back">Usar outro e-mail</button>
+    <form id="au-criar" hidden style="display:flex;flex-direction:column;gap:12px">
+      <p>Primeiro acesso: escolha uma senha para o seu e-mail autorizado. Não é preciso confirmar nada por e-mail.</p>
+      <div class="field"><label for="au-ce">E-mail</label><input class="inp" type="email" id="au-ce" autocomplete="email" required placeholder="nome@cesmac.edu.br"></div>
+      <div class="field"><label for="au-cp">Nova senha</label><input class="inp" type="password" id="au-cp" autocomplete="new-password" minlength="8" required placeholder="Ao menos 8 caracteres"></div>
+      <div class="field"><label for="au-cp2">Repita a senha</label><input class="inp" type="password" id="au-cp2" autocomplete="new-password" minlength="8" required></div>
+      <button class="btn primary" type="submit" id="au-criar-ok">Criar senha e entrar</button>
+      <button class="linkbtn" type="button" data-volta="login">Voltar</button>
+    </form>
+    <form id="au-recuperar" hidden style="display:flex;flex-direction:column;gap:12px">
+      <p>Enviamos um link para você cadastrar uma senha nova. Abra o e-mail no mesmo navegador em que está agora.</p>
+      <div class="field"><label for="au-re">E-mail</label><input class="inp" type="email" id="au-re" autocomplete="email" required placeholder="nome@cesmac.edu.br"></div>
+      <button class="btn primary" type="submit" id="au-rec-ok">Enviar link de recuperação</button>
+      <p style="font-size:13px">O envio de e-mails é limitado a 2 por hora no projeto inteiro. Se der erro, aguarde e tente de novo, ou peça a um administrador para trocar sua senha.</p>
+      <button class="linkbtn" type="button" data-volta="login">Voltar</button>
+    </form>
+    <form id="au-nova" hidden style="display:flex;flex-direction:column;gap:12px">
+      <p>Escolha a sua nova senha.</p>
+      <div class="field"><label for="au-np">Nova senha</label><input class="inp" type="password" id="au-np" autocomplete="new-password" minlength="8" required placeholder="Ao menos 8 caracteres"></div>
+      <button class="btn primary" type="submit" id="au-nova-ok">Salvar senha</button>
     </form>
     <form id="au-nome" hidden style="display:flex;flex-direction:column;gap:12px">
       <p>Primeiro acesso: como seu nome deve aparecer para o grupo nas reservas e no mural?</p>
@@ -550,8 +573,9 @@ const fromRow=r=>({id:r.id,tipo:r.tipo||'reserva',serie:r.serie||'',sala:r.sala,
 const fromMsg=m=>({id:m.id,texto:m.texto,sala:m.sala||'',data:m.data||'',autorNome:m.autor_nome,email:m.autor_email,criadoEm:m.criado_em});
 async function supaLoad(){ const {data,error}=await store.sb.from('reservas').select('*').order('data'); if(!error){ store.all=data.map(fromRow); changed(); } }
 async function supaLoadMural(){ const {data,error}=await store.sb.from('mural').select('*').order('criado_em',{ascending:false}).limit(300); if(!error){ store.mural=data.map(fromMsg); changed(); } }
+const AU_STEPS=['au-loading','au-login','au-criar','au-recuperar','au-nova','au-nome','au-negado'];
 function authStep(step,msg){
-  ['au-loading','au-email','au-code','au-nome','au-negado'].forEach(id=>$(id).hidden=id!=='au-'+step);
+  AU_STEPS.forEach(id=>$(id).hidden=id!=='au-'+step);
   $('au-err').hidden=!msg; if(msg) $('au-err').textContent=msg;
   $('auth').hidden=false; document.body.classList.add('gated');
 }
@@ -562,15 +586,20 @@ async function initSupabase(){
   try{ if(!window.supabase) await loadLib('https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2.116.0/dist/umd/supabase.js'); }
   catch(e){ authStep('loading','Não foi possível carregar o sistema de login. Verifique a internet e recarregue a página.'); return; }
   const sb=store.sb=window.supabase.createClient(CFG.supabaseUrl,CFG.supabaseAnonKey,{auth:{persistSession:true,autoRefreshToken:true,detectSessionInUrl:true}});
-  sb.auth.onAuthStateChange((ev,session)=>{ if(ev==='SIGNED_OUT'){ supaStarted=false; authStep('email'); } else if(session&&!supaStarted) afterLogin(session); });
+  sb.auth.onAuthStateChange((ev,session)=>{
+    if(ev==='SIGNED_OUT'){ supaStarted=false; authStep('login'); }
+    else if(ev==='PASSWORD_RECOVERY'){ supaStarted=false; authStep('nova'); }
+    else if(session&&!supaStarted) afterLogin(session); });
   const {data:{session}}=await sb.auth.getSession();
-  if(session) afterLogin(session); else authStep('email');
+  if(location.hash.includes('type=recovery')) authStep('nova');
+  else if(session) afterLogin(session); else authStep('login');
 }
 async function afterLogin(session){
   if(supaStarted) return; supaStarted=true;
   const sb=store.sb; const email=(session.user.email||'').toLowerCase();
   const {data,error}=await sb.from('membros').select('email,nome,admin,mural_lido_em').eq('email',email).maybeSingle();
   if(error||!data){ supaStarted=false; $('au-negado-t').textContent=`O e-mail ${email} não está na lista do grupo. Peça a um administrador para incluir.`; authStep('negado'); return; }
+  if(location.hash.includes('type=recovery')){ authStep('nova'); return; }
   store.me={nome:data.nome||'',email,admin:!!data.admin,muralLido:data.mural_lido_em||''};
   if(!store.me.nome){ authStep('nome'); return; }
   startSupa();
@@ -584,29 +613,82 @@ async function startSupa(){
     .subscribe();
   document.addEventListener('visibilitychange',()=>{ if(!document.hidden){ supaLoad(); supaLoadMural(); } });
 }
-$('au-email').onsubmit=async e=>{
-  e.preventDefault(); const email=$('au-e').value.trim().toLowerCase(); if(!email) return;
-  const b=$('au-send'); b.disabled=true; b.textContent='Enviando…';
+async function emailAutorizado(email){
+  const r=await store.sb.rpc('email_autorizado',{e:email});
+  if(r.error) throw r.error; return !!r.data;
+}
+function erroLogin(m){
+  if(/Invalid login credentials|invalid_credentials/i.test(m)) return 'E-mail ou senha incorretos. Se é o seu primeiro acesso, toque em “Criar minha senha”.';
+  if(/already registered|already exists|user_already_exists/i.test(m)) return 'Já existe uma senha para este e-mail. Use “Entrar” ou “Esqueci minha senha”.';
+  if(/Password should be|weak|short/i.test(m)) return 'A senha precisa ter ao menos 8 caracteres.';
+  if(/Email not confirmed/i.test(m)) return 'Este e-mail ainda precisa ser confirmado. Peça ajuda a um administrador.';
+  const seg=(m.match(/after (\d+) seconds/)||[])[1];
+  if(seg) return `Aguarde ${seg} segundos e tente de novo.`;
+  if(/email rate limit|rate limit exceeded/i.test(m)) return 'O limite de e-mails do projeto foi atingido (2 por hora no plano gratuito). Tente daqui a uma hora ou peça a um administrador para trocar sua senha.';
+  return 'Não foi possível concluir agora. Verifique a conexão e tente de novo.';
+}
+$('au-login').onsubmit=async e=>{
+  e.preventDefault();
+  const email=$('au-e').value.trim().toLowerCase(), senha=$('au-p').value;
+  if(!email||!senha) return;
+  const b=$('au-entrar'); b.disabled=true; b.textContent='Entrando…';
   try{
-    const ok=await store.sb.rpc('email_autorizado',{e:email});
-    if(ok.error) throw ok.error;
-    if(!ok.data){ authStep('email','Este e-mail não está na lista do grupo. Peça a um administrador para incluir.'); return; }
-    const {error}=await store.sb.auth.signInWithOtp({email,options:{emailRedirectTo:location.origin+location.pathname,shouldCreateUser:true}});
+    const {error}=await store.sb.auth.signInWithPassword({email,password:senha});
     if(error) throw error;
-    authEmail=email; $('au-sent').textContent=`Enviamos um link de acesso para ${email}. Abra o e-mail neste mesmo aparelho e toque em “Log In”. Se o e-mail trouxer um código de 6 dígitos, você também pode digitá-lo abaixo.`; authStep('code');
-  }catch(err){ authStep('email', /rate|seconds/i.test(err.message||'')?'Muitas tentativas seguidas. Aguarde um minuto e tente de novo.':'Não foi possível enviar o e-mail agora. Tente de novo em instantes.'); }
-  finally{ b.disabled=false; b.textContent='Enviar link de acesso'; }
+    $('au-p').value='';
+  }catch(err){ authStep('login',erroLogin(err.message||'')); }
+  finally{ b.disabled=false; b.textContent='Entrar'; }
 };
-$('au-code').onsubmit=async e=>{
-  e.preventDefault(); const token=$('au-c').value.replace(/\D/g,''); if(token.length<6) return;
-  const b=$('au-verify'); b.disabled=true;
-  const {error}=await store.sb.auth.verifyOtp({email:authEmail,token,type:'email'});
-  b.disabled=false; if(error) authStep('code','Código inválido ou vencido. Confira o e-mail mais recente ou peça um novo link.');
+$('au-ir-criar').onclick=()=>{ $('au-ce').value=$('au-e').value; authStep('criar'); };
+$('au-ir-recuperar').onclick=()=>{ $('au-re').value=$('au-e').value; authStep('recuperar'); };
+document.querySelectorAll('[data-volta]').forEach(b=>b.onclick=()=>authStep(b.dataset.volta));
+$('au-criar').onsubmit=async e=>{
+  e.preventDefault();
+  const email=$('au-ce').value.trim().toLowerCase(), s1=$('au-cp').value, s2=$('au-cp2').value;
+  if(s1.length<8){ authStep('criar','A senha precisa ter ao menos 8 caracteres.'); return; }
+  if(s1!==s2){ authStep('criar','As duas senhas não são iguais.'); return; }
+  const b=$('au-criar-ok'); b.disabled=true; b.textContent='Criando…';
+  try{
+    if(!await emailAutorizado(email)){ authStep('criar','Este e-mail não está na lista do grupo. Peça a um administrador para incluir.'); return; }
+    const {data,error}=await store.sb.auth.signUp({email,password:s1});
+    if(error) throw error;
+    if(!data.session){
+      const r=await store.sb.auth.signInWithPassword({email,password:s1});
+      if(r.error) throw r.error;
+    }
+    $('au-cp').value=''; $('au-cp2').value='';
+  }catch(err){ authStep('criar',erroLogin(err.message||'')); }
+  finally{ b.disabled=false; b.textContent='Criar senha e entrar'; }
 };
-$('au-back').onclick=()=>authStep('email');
+$('au-recuperar').onsubmit=async e=>{
+  e.preventDefault(); const email=$('au-re').value.trim().toLowerCase(); if(!email) return;
+  const b=$('au-rec-ok'); b.disabled=true; b.textContent='Enviando…';
+  try{
+    if(!await emailAutorizado(email)){ authStep('recuperar','Este e-mail não está na lista do grupo.'); return; }
+    const {error}=await store.sb.auth.resetPasswordForEmail(email,{redirectTo:location.origin+location.pathname});
+    if(error) throw error;
+    authStep('recuperar',''); $('au-rec-ok').textContent='Link enviado';
+    $('au-err').hidden=false; $('au-err').className='check s-l'; $('au-err').textContent=`Enviamos um link para ${email}. Abra o e-mail neste mesmo navegador e escolha a nova senha.`;
+  }catch(err){ authStep('recuperar',erroLogin(err.message||'')); }
+  finally{ b.disabled=false; if(b.textContent==='Enviando…') b.textContent='Enviar link de recuperação'; }
+};
+$('au-nova').onsubmit=async e=>{
+  e.preventDefault(); const s=$('au-np').value;
+  if(s.length<8){ authStep('nova','A senha precisa ter ao menos 8 caracteres.'); return; }
+  const b=$('au-nova-ok'); b.disabled=true;
+  try{
+    const {error}=await store.sb.auth.updateUser({password:s});
+    if(error) throw error;
+    history.replaceState(null,'',location.pathname);
+    const {data:{session}}=await store.sb.auth.getSession();
+    supaStarted=false; $('au-np').value='';
+    if(session) afterLogin(session); else authStep('login','Senha alterada. Entre com a nova senha.');
+  }catch(err){ authStep('nova',erroLogin(err.message||'')); }
+  finally{ b.disabled=false; }
+};
 $('au-nome').onsubmit=async e=>{ e.preventDefault(); const n=$('au-n').value.trim(); if(!n) return;
   try{ await setMyName(n); startSupa(); }catch(err){ authStep('nome','Não foi possível salvar seu nome. Tente de novo.'); } };
-$('au-sair').onclick=async()=>{ await store.sb.auth.signOut(); authStep('email'); };
+$('au-sair').onclick=async()=>{ await store.sb.auth.signOut(); authStep('login'); };
 
 /* ---------- status engine ---------- */
 function statusAt(sala,date,s){
@@ -1037,6 +1119,7 @@ async function openConta(msg){
   $('k-nome').value=store.me.nome||'';
   $('k-info').textContent= msg || (store.mode==='supa'?`Conectado como ${store.me.email}${store.me.admin?' · administrador':''}`:'Seu nome fica salvo neste navegador e aparece nas reservas, liberações e recados.');
   $('k-sair').hidden=store.mode!=='supa'; $('k-admin').hidden=!(store.mode==='supa'&&store.me.admin);
+  $('k-senha-wrap').hidden=store.mode!=='supa'; $('k-senha').value='';
   if(store.mode==='supa'&&store.me.admin) loadMembers();
   dConta.showModal();
 }
@@ -1059,6 +1142,14 @@ $('k-members').onclick=async e=>{
 };
 $('k-save').onclick=async()=>{ const n=$('k-nome').value.trim(); if(!n){ $('k-nome').focus(); return; }
   try{ await setMyName(n); dConta.close(); toast('Nome salvo'); }catch(err){ toast('Não foi possível salvar o nome.'); } };
+$('k-senha-ok').onclick=async()=>{
+  const s=$('k-senha').value;
+  if(s.length<8){ toast('A senha precisa ter ao menos 8 caracteres.'); return; }
+  const b=$('k-senha-ok'); b.disabled=true;
+  try{ const {error}=await store.sb.auth.updateUser({password:s}); if(error) throw error; $('k-senha').value=''; toast('Senha alterada'); }
+  catch(err){ toast('Não foi possível trocar a senha agora.'); }
+  finally{ b.disabled=false; }
+};
 $('k-close').onclick=()=>dConta.close();
 $('k-sair').onclick=async()=>{ dConta.close(); await store.sb.auth.signOut(); };
 dConta.addEventListener('click',e=>{ if(e.target===dConta) dConta.close(); });

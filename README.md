@@ -18,7 +18,8 @@ A configuração leva cerca de 30 minutos e é feita uma vez só.
 | `index.html` | O app inteiro, com a grade das salas e o calendário 2026.2. |
 | `config.js` | Onde você cola as 2 chaves do Supabase (passo 3). |
 | `schema.sql` | Cria as tabelas, as regras de acesso e a trava contra reserva duplicada. |
-| `manifest.webmanifest`, `icon-192.png`, `icon-512.png`, `apple-touch-icon.png` | Permitem instalar o app na tela inicial do celular. |
+| `manifest.webmanifest` e os ícones `.png` | Permitem instalar o app na tela inicial do celular. |
+| `.nojekyll` | Arquivo técnico do GitHub Pages. Pode deixar como está. |
 
 ---
 
@@ -39,7 +40,8 @@ A configuração leva cerca de 30 minutos e é feita uma vez só.
 1. No GitHub, clique em **New repository**.
    - **Nome:** `salas-livres`.
    - **Visibilidade:** **Public**. O GitHub Pages gratuito exige repositório público. Os dados continuam protegidos pelo login; veja a seção "Segurança".
-2. No repositório vazio, clique em **uploading an existing file**. Arraste **todos os arquivos desta pasta** e clique em **Commit changes**.
+2. No repositório vazio, clique em **uploading an existing file**. Arraste **todo o conteúdo desta pasta** e clique em **Commit changes**.
+   - Se o `.nojekyll` não aparecer no seu computador, tudo bem, o app funciona sem ele.
 3. Vá em **Settings › Pages**.
    - Em *Build and deployment*, escolha **Deploy from a branch**.
    - Selecione a branch **main**, a pasta **/(root)** e clique em **Save**.
@@ -57,22 +59,25 @@ A configuração leva cerca de 30 minutos e é feita uma vez só.
 > A chave *anon* pode ficar pública. Quem protege os dados são as regras criadas pelo `schema.sql`.
 > **Nunca** cole no app a chave `service_role` (ou *secret*).
 
-## Passo 4 · Configurar o login por e-mail
+## Passo 4 · Configurar o login por senha
 
 No Supabase, em **Authentication**:
 
-1. **URL Configuration**
-   - **Site URL:** cole o endereço do GitHub Pages (passo 2).
-   - **Redirect URLs:** adicione o mesmo endereço.
-2. **Emails › Templates:** no plano gratuito, sem SMTP próprio, o Supabase não deixa editar os modelos. O e-mail padrão traz só o **link**, então a pessoa deve abrir o e-mail **no mesmo aparelho** em que vai usar o app. Se um dia você configurar um SMTP, pode acrescentar `{{ .Token }}` ao modelo *Magic Link* para enviar também um código.
-3. O envio de e-mails do próprio Supabase tem um **limite baixo por hora**. Para um grupo de 10 pessoas costuma bastar, porque o login fica salvo no aparelho. Se precisar de mais, configure um SMTP próprio em **Authentication › Emails › SMTP Settings**.
+1. **Sign In / Providers**
+   - **Email:** deixe **Enabled**.
+   - **Allow new users to sign up:** ligado. É o que permite a cada membro criar a própria senha no primeiro acesso.
+   - **Confirm email:** **desligado**. Assim ninguém precisa de e-mail para entrar.
+2. **URL Configuration**
+   - **Site URL** e **Redirect URLs:** o endereço do app (passo 2). Isso só é usado no link de "Esqueci minha senha".
+
+> Só entra quem está na lista de membros: antes de criar a senha, o app confere o e-mail na tabela `membros`.
 
 ## Passo 5 · Primeiro acesso e membros
 
-1. Abra o endereço do app, digite seu e-mail e toque em **Enviar link de acesso**.
-2. Abra o e-mail e toque no link, ou digite o código no app. Na primeira vez, informe como seu nome deve aparecer.
+1. Abra o endereço do app.
+2. Toque em **Primeiro acesso? Criar minha senha**, escolha a senha e informe como seu nome deve aparecer.
 3. Toque no seu nome (no canto superior do celular, ou embaixo do menu no computador). Em **Membros do grupo**, adicione o e-mail de cada pessoa. Marque "Também é administrador" para quem também puder gerenciar a lista.
-4. Envie o endereço do app para o grupo. Cada pessoa entra com o próprio e-mail.
+4. Envie o endereço do app para o grupo. Cada pessoa cria a própria senha no primeiro acesso.
 
 **Instalar no celular:**
 - **iPhone:** abra no Safari › Compartilhar › *Adicionar à Tela de Início*.
@@ -81,6 +86,10 @@ No Supabase, em **Authentication**:
 ---
 
 ## Regras do app
+
+- **Entrar:** e-mail autorizado + senha. No primeiro acesso, a pessoa toca em **Primeiro acesso? Criar minha senha**, escolhe uma senha de ao menos 8 caracteres e já entra, sem e-mail nenhum.
+- **Trocar a senha:** toque no seu nome › **Nova senha**.
+- **Esqueci minha senha:** envia um link por e-mail. Esse envio usa a cota do Supabase (2 e-mails por hora no plano gratuito), então é o caminho de exceção. Um administrador também pode trocar a senha de alguém em **Authentication › Users** no painel do Supabase.
 
 - **Reservar um turno inteiro:** no formulário de reserva, os botões **Manhã inteira** (07h30–12h00), **Tarde inteira** (13h20–17h50) e **Dia inteiro** preenchem os horários de uma vez.
 - **Reserva repetida:** em **Repetir**, escolha *Toda semana, no mesmo dia* ou *A cada 15 dias* e a data limite (por padrão, 22/12, fim do semestre). O app mostra quantas datas serão criadas e quais serão puladas por feriado, aula na grade ou reserva de outra pessoa. Ao cancelar uma delas, dá para cancelar todas as datas futuras da mesma repetição.
